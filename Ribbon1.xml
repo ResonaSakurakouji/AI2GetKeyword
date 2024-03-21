@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+    <ribbon>
+        <tabs>
+            <tab id="tab1" label="Hrz Getter">
+                <group id="Start" label="定义区域">
+                    <button id="dim_btn" onAction="dim_btn_Click" supertip="将所选区域设置为数据源，区域必须连续，否则极易出现问题" label="定义数据区域" showImage="false" />
+                    <button id="set_btn" onAction="set_btn_Click" visible="false" supertip="指定一个区域用于输出提取后的数据，必须与数据源区域大小相等！" label="定义生成区域" showImage="false" />
+                    <button id="help_btn" label="帮助信息" showImage="false" />
+                </group>
+                <group id="Config" label="本地AI提词">
+                    <comboBox id="get_type_slct" onChange="get_type_slct_TextChanged" supertip="指定要提取的文本类型" label="目标" showImage="false">
+                        <item id="__id1" label="人名字号" screentip="现实人名和虚拟人名" supertip="People, including fictional" />
+                        <item id="__id2" label="宗教政治" screentip="国籍，宗教或政治团体" supertip="Nationalities or religious or political groups" />
+                        <item id="__id3" label="基建设施" screentip="建筑，公路，桥梁等" supertip="Buildings, airports, highways, bridges,etc." />
+                        <item id="__id4" label="组织机构" screentip="公司、机构、机关等" supertip="Companies,agencies,institutions,etc." />
+                        <item id="__id5" label="省份城市" screentip="国家、省份、城市" supertip="Countries, cities, states" />
+                        <item id="__id6" label="山脉水域" screentip="非GPE位置、山脉、水体。" supertip="Non-GPE locations, mountain ranges, bodies of water." />
+                        <item id="__id7" label="实体对象" screentip="物品、车辆、食品等（不包括服务）" supertip="objects, vehicles, foods,etc.(NOT services)" />
+                        <item id="__id8" label="重点事件" screentip="灾害，战争，赛事" supertip="Named hurricanes, battls, wars, sports events, etc." />
+                        <item id="__id9" label="作品名称" screentip="书名、歌曲等" supertip="Titles of books, songs, etc." />
+                        <item id="__id10" label="法律文件" screentip="成文的法律" supertip="Named documents made into laws." />
+                        <item id="__id11" label="命名语言" screentip="任何命名语言" supertip="Any named language" />
+                        <item id="__id12" label="时期日期" screentip="绝对或相对日期或时期" supertip="Absolute or relative dates or periods" />
+                        <item id="__id13" label="时间片段" screentip="不到一天的时间" supertip="Times smaller than a day" />
+                        <item id="__id14" label="百分比值" screentip="百分比，包括“%”" supertip="percentage, including &quot;%&quot;" />
+                        <item id="__id15" label="金钱价值" screentip="货币价值，包括单位价值" supertip="Monetary values, including unit" />
+                        <item id="__id16" label="单位度量" screentip="测量单位，如重量或距离" supertip="Measurements, as of weight or distance" />
+                        <item id="__id17" label="序数词语" screentip="第一、第二等序数词" supertip="&quot;first&quot;,&quot;second&quot;,etc" />
+                        <item id="__id18" label="无型数字" screentip="不属于其他类型的数字" supertip="Numerals that do not fall under another type" />
+                    </comboBox>
+                    <checkBox id="precise_chb" onAction="precise_chb_Click" screentip="使结果更可靠，以牺牲识别成功率为代价" supertip="勾选后，提取的数据精细度会上升，但识别成功率会下降，无法识别的时将输出空值等待手工填写。（建议开启）" label="提高准度" />
+                    <checkBox id="overwrite_chb" onAction="overwrite_chb_Click" screentip="生成内容将直接覆盖原有内容" supertip="勾选后，生成内容将直接覆盖原有内容，此覆盖很可能无法撤销！&#xA;若取消勾选，生成结果不会覆盖已有数据的区域，但是对于无法识别出结果的内容，多次识别并不会提高成功率" label="覆盖生成" />
+                    <button id="execute_btn" onAction="execute_btn_Click" visible="false" label="执行" size="large" />
+                </group>
+                <group id="Visual" label="正则表达式">
+                    <button id="visible_btn" onAction="button1_Click" supertip="单击以显示或隐藏窗口" label="显示/隐藏" showImage="false" />
+                </group>
+                <group id="group1" label="没想好怎么写" visible="false">
+                    <checkBox id="faster_chb" onAction="faster_chb_CheckedChanged" screentip="更节省总体时间，以牺牲即时显示为代价" supertip="勾选后，你需要等待相当长的一段时间（这取决于你的数据源区域大小）来等待结果的生成，结果将一次性出现在目标区域&#xA;若取消勾选，结果将逐个出现在目标区域，你可以随时看到每一步的产出，但是这将会花费更多的时间" label="使用高速处理方式" />
+                    <checkBox id="background_chb" onAction="background_chb_Click" visible="false" screentip="在后台进行计算" supertip="勾选后，生成将在后台进行，在此期间你可以接续编辑工作表。生成完成后，单击下方的‘执行填充’将一次性将结果填充至‘自定义生成区域’，请务必不要忘记" label="后台托管" />
+                    <button id="finalExe_btn" visible="false" label="执行填充" />
+                </group>
+            </tab>
+        </tabs>
+    </ribbon>
+</customUI>
