@@ -26,8 +26,6 @@ namespace AI2GetKeyword
         private int columnCount;
         private string ent_label_ = "PERSON"; // 要提取的类型
         private string precise_mode = "1"; // 1：开启精确模式
-        private bool fast_mode = false; // true：开启快速模式
-        private bool background_mode = false; // true：开启后台模式
         private bool overwrite_mode = false; // true: 开启覆写模式
 
         public override string ToString()
@@ -61,8 +59,6 @@ namespace AI2GetKeyword
             string result = $"cellValue: {cellValues_str}\n";
             result += $"ent_label_: {ent_label_}\n";
             result += $"precise_mode: {precise_mode}\n";
-            result += $"fast_mode: {fast_mode}\n";
-            result += $"background_mode: {background_mode}\n";
             result += $"overwrite_mode: {overwrite_mode}\n";
             return result;
         }
@@ -149,14 +145,6 @@ namespace AI2GetKeyword
             }
         }
 
-        // 快速模式
-        private void faster_chb_CheckedChanged(object sender, RibbonControlEventArgs e)
-        {
-            background_chb.Visible = faster_chb.Checked;
-            fast_mode = faster_chb.Checked;
-
-        }
-
         // 精准模式
         private void precise_chb_Click(object sender, RibbonControlEventArgs e)
         {
@@ -167,12 +155,6 @@ namespace AI2GetKeyword
         private void overwrite_chb_Click(object sender, RibbonControlEventArgs e)
         {
             overwrite_mode = overwrite_chb.Checked;
-        }
-
-        // 后台模式
-        private void background_chb_Click(object sender, RibbonControlEventArgs e)
-        {
-            background_mode = background_chb.Checked;
         }
 
         // 获取类型
