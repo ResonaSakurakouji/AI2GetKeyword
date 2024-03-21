@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace AI2GetKeyword
 {
-    internal class Common
+    internal class RightForm
     {
         private static Microsoft.Office.Tools.CustomTaskPane CustomTask;
         // 创建显示用户窗体的方法，并对外暴露 关键字 public
@@ -21,7 +21,7 @@ namespace AI2GetKeyword
                 /*
                 Globals.ThisAddIn表示对于当前的VSTO插件的引用，
                 CustomTaskPanes是一个属性，它提供了对VSTO插件中自定义任务窗格的访问。
-                .Add(userControl1, "任务窗格")是在自定义任务窗格集合中添加新的任务窗格的方法。其中，
+                .Add(userControl1, "正则输入框")是在自定义任务窗格集合中添加新的任务窗格的方法。其中，
                     userControl1是一个自定义的用户控件，将用于承载在任务窗格中显示的内容，"任务窗格"是任务窗格的标题。
                 通过调用这个方法，你可以将自定义的用户控件添加到VSTO插件的自定义任务窗格中，从而实现在Excel应用程序中显示自定义的内容。
                  */

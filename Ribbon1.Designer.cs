@@ -55,7 +55,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon1));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.Start = this.Factory.CreateRibbonGroup();
-            this.RegexInput = this.Factory.CreateRibbonButton();
+            this.help_btn = this.Factory.CreateRibbonButton();
             this.dim_btn = this.Factory.CreateRibbonButton();
             this.set_btn = this.Factory.CreateRibbonButton();
             this.NLP_Get = this.Factory.CreateRibbonGroup();
@@ -64,7 +64,7 @@
             this.overwrite_chb = this.Factory.CreateRibbonCheckBox();
             this.execute_btn = this.Factory.CreateRibbonButton();
             this.Regex = this.Factory.CreateRibbonGroup();
-            this.help_btn = this.Factory.CreateRibbonButton();
+            this.RegexInput = this.Factory.CreateRibbonButton();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.finalExe_btn = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();

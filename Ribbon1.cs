@@ -18,7 +18,7 @@ namespace AI2GetKeyword
         string pyResultFileName = @"Result.txt";
 
         public Excel.Application Excelapp;
-        Common common = new Common();
+        RightForm common = new RightForm();
         private Excel.Range targetRange;
         private string[,] sourceValues = null;
         private string[,] pyResultValues = null;

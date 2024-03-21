@@ -30,10 +30,10 @@
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>H:\测试环境\20231201py测试exeAI\</PublishUrl>
+    <PublishUrl>H:\测试环境\20240116py312AI提取关键字\</PublishUrl>
     <InstallUrl />
     <TargetCulture>zh-chs</TargetCulture>
-    <ApplicationVersion>1.0.0.4</ApplicationVersion>
+    <ApplicationVersion>1.0.0.7</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -213,7 +213,7 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="Common.cs" />
+    <Compile Include="RightForm.cs" />
     <Compile Include="GetWorkbookData.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -248,6 +248,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Ribbon.cs">
+      <XmlRibbon>true</XmlRibbon>
+    </Compile>
     <Compile Include="Ribbon1.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -267,6 +270,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GetKeyword.py" />
+    <EmbeddedResource Include="Ribbon1.xml" />
+    <EmbeddedResource Include="Ribbon.xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
