@@ -71,9 +71,9 @@ namespace AI2GetKeyword
             CratePyFile();
         }
 
-        private void button1_Click(object sender, RibbonControlEventArgs e)
+        private void help_btn_Click(object sender, RibbonControlEventArgs e)
         {
-            common.ShowCustomTask();
+            common.ShowCustomTask_Regex();
         }
         private void dim_btn_Click(object sender, RibbonControlEventArgs e)
         {
@@ -355,6 +355,11 @@ namespace AI2GetKeyword
                     writer.WriteLine();
                 }
             }
+        }
+
+        private void RegexInput_Click(object sender, RibbonControlEventArgs e)
+        {
+
         }
     }
 }

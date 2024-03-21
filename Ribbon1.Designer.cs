@@ -55,7 +55,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon1));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.Start = this.Factory.CreateRibbonGroup();
-            this.help_btn = this.Factory.CreateRibbonButton();
+            this.RegexInput = this.Factory.CreateRibbonButton();
             this.dim_btn = this.Factory.CreateRibbonButton();
             this.set_btn = this.Factory.CreateRibbonButton();
             this.NLP_Get = this.Factory.CreateRibbonGroup();
@@ -64,7 +64,7 @@
             this.overwrite_chb = this.Factory.CreateRibbonCheckBox();
             this.execute_btn = this.Factory.CreateRibbonButton();
             this.Regex = this.Factory.CreateRibbonGroup();
-            this.RegexInput = this.Factory.CreateRibbonButton();
+            this.help_btn = this.Factory.CreateRibbonButton();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.finalExe_btn = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
@@ -95,8 +95,7 @@
             // 
             this.help_btn.Label = "【帮助信息】";
             this.help_btn.Name = "help_btn";
-            this.help_btn.SuperTip = "单击以显示或隐藏窗口";
-            this.help_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
+            this.help_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.RegexInput_Click);
             // 
             // dim_btn
             // 
@@ -258,6 +257,8 @@
             // 
             this.RegexInput.Label = "正则输入框";
             this.RegexInput.Name = "RegexInput";
+            this.RegexInput.SuperTip = "单击以显示或隐藏窗口";
+            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.help_btn_Click);
             // 
             // group1
             // 
@@ -298,7 +299,7 @@
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup Regex;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton help_btn;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton RegexInput;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton dim_btn;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton set_btn;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup NLP_Get;
@@ -306,7 +307,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox precise_chb;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox overwrite_chb;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup Start;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton RegexInput;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton help_btn;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton execute_btn;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton finalExe_btn;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
