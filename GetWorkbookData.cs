@@ -17,19 +17,32 @@ namespace AI2GetKeyword
             InitializeComponent();
         }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void GetWorkbookData_Load(object sender, EventArgs e)
         {
-
+            return;
         }
 
-        private void richTextBox1_TextChanged_1(object sender, EventArgs e)
+        private void Regex_InputTitle_Click(object sender, EventArgs e)
         {
-
+            return;
         }
+
+        private void Regex_InputBox_Changed(object sender, EventArgs e)
+        {
+            this.Regex_Return_btn.Visible = false;
+            return;
+        }
+
+        private void Regex_Check_btn_Click(object sender, EventArgs e)
+        {
+            if (true) { }
+            return;
+        }
+
+        private void Regex_Return_btn_Click(object sender, EventArgs e)
+        {
+            return;
+        }
+
     }
 }
