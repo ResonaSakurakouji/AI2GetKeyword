@@ -317,7 +317,7 @@ namespace AI2GetKeyword
                     "resultFilePath = rf\"C:\\HrzMethods\\AI2GetKeyword\\Result.txt\"\r\n" +
                     "def getTypeWord(text_list, level, type_word):\r\n" +
                     "    nlp0 = spacy.load(\"zh_core_web_lg\")\r\n" +
-                    "    # nlp1 = spacy.load(\"zh_core_web_trf\")\r\n" +
+                    "    nlp1 = spacy.load(\"zh_core_web_trf\")\r\n" +
                     "    nlp2 = spacy.load(\"zh_core_web_md\")\r\n" +
                     "    nlp3 = spacy.load(\"zh_core_web_sm\")\r\n" +
                     "    result_list = []\r\n" +
@@ -328,10 +328,10 @@ namespace AI2GetKeyword
                     "            if ent.label_ == type_word:\r\n" +
                     "                company_names.append(ent.text)\r\n" +
                     "        if company_names == [] and level >= 1:\r\n" +
-                    "            # doc1 = nlp1(text)\r\n" +
-                    "            # for ent in doc1.ents:\r\n" +
-                    "            #     if ent.label_ == type_word:\r\n" +
-                    "            #         company_names.append(ent.text)\r\n" +
+                    "            doc1 = nlp1(text)\r\n" +
+                    "            for ent in doc1.ents:\r\n" +
+                    "                if ent.label_ == type_word:\r\n" +
+                    "                    company_names.append(ent.text)\r\n" +
                     "            if company_names == [] and level >= 2:\r\n" +
                     "                doc2 = nlp2(text)\r\n" +
                     "                for ent in doc2.ents:\r\n" +
