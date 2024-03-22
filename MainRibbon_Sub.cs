@@ -246,21 +246,21 @@ namespace AI2GetKeyword
         private void SetResultRangeValues(string resultStr)
         {
             string resultCellValue;
-            if (resultStr == null || resultStr.Equals("")) 
+            if (resultStr == null || resultStr.Equals(""))
             {
                 MessageBox.Show("文件组件缺失，无法提取", "发现异常");
             }
             else
             {
                 pyResultValues = new string[rowCount, columnCount];
-                string resultStr2 = resultStr.Replace("[[","");
+                string resultStr2 = resultStr.Replace("[[", "");
                 resultStr2 = resultStr2.Replace("]]", "");
                 resultStr2 = resultStr2.Replace("\\ufeff", ""); // 处理零宽度空格的问题
                 string[] resultList2 = resultStr2.Replace("], [", "⛵").Split('⛵');
                 long resultList2Index = 0;
                 for (int row = 0; row < rowCount; row += 1)
                 {
-                    for (int column = 0; column < columnCount; column += 1) 
+                    for (int column = 0; column < columnCount; column += 1)
                     {
                         resultCellValue = resultList2[resultList2Index].Replace(@"'", @"");
                         resultCellValue = resultCellValue.Replace(@",", @" ");
@@ -349,7 +349,7 @@ namespace AI2GetKeyword
             if (!File.Exists(pyPath))
             {
                 File.Create(pyPath).Close();
-                using(StreamWriter writer = new StreamWriter(pyPath, false))
+                using (StreamWriter writer = new StreamWriter(pyPath, false))
                 {
                     writer.Write(dataToWrite);
                     writer.WriteLine();
@@ -365,7 +365,7 @@ namespace AI2GetKeyword
                 "3. 进行后续其他选项卡的操作;\r\n" +
                 "在进行定义的时候请务必注意源区域与目标区域的大小必须一致;\r\n" +
                 "您也可以通过在按钮上悬停鼠标来尝试获取更多帮助信息;\r\n";
-            MessageBox.Show(MainHelp,"帮助简介");
+            MessageBox.Show(MainHelp, "帮助简介");
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace AI2GetKeyword
 {
@@ -93,7 +93,7 @@ namespace AI2GetKeyword
                             }
                         }
                         // MessageBox.Show(BooleanArrayToString(regex_results));
-                        if(Regex_rbtn_CheckMod.Checked || Regex_rbtn_FilterMod.Checked || Regex_rbtn_ReplaceMod.Checked)
+                        if (Regex_rbtn_CheckMod.Checked || Regex_rbtn_FilterMod.Checked || Regex_rbtn_ReplaceMod.Checked)
                         {
                             this.Regex_Return_btn.Text = "获取结果";
                             this.Regex_Return_btn.Enabled = true;
