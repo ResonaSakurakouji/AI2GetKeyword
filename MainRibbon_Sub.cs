@@ -1,5 +1,4 @@
 ﻿using Microsoft.Office.Tools.Ribbon;
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -358,9 +357,15 @@ namespace AI2GetKeyword
             }
         }
 
-        private void RegexInput_Click(object sender, RibbonControlEventArgs e)
+        private void HELP_btn_Click(object sender, RibbonControlEventArgs e)
         {
-
+            string MainHelp = "在您使用Hrz Getter的时候，请遵循以下顺序:\r\n" +
+                "1. 在【区域定义】子选项卡中定义或重设数据区域;\r\n" +
+                "2. 在【区域定义】子选项卡中定义或重设生成数据区域;\r\n" +
+                "3. 进行后续其他选项卡的操作;\r\n" +
+                "在进行定义的时候请务必注意源区域与目标区域的大小必须一致;\r\n" +
+                "您也可以通过在按钮上悬停鼠标来尝试获取更多帮助信息;\r\n";
+            MessageBox.Show(MainHelp,"帮助简介");
         }
     }
 }

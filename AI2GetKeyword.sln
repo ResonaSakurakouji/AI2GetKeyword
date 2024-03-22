@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI2GetKeyword", "AI2GetKeyword.csproj", "{1559BCBA-E10A-4150-986C-DEE69E712F83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HrzGetter", "HrzGetter.csproj", "{1559BCBA-E10A-4150-986C-DEE69E712F83}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{AD8F506B-7C39-4468-994B-AEF90BB620E6}"
 	ProjectSection(SolutionItems) = preProject

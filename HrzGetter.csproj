@@ -25,23 +25,23 @@
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>AI2GetKeyword</RootNamespace>
-    <AssemblyName>AI2GetKeyword</AssemblyName>
+    <AssemblyName>HrzGetter</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>H:\测试环境\20240116py312AI提取关键字\</PublishUrl>
+    <PublishUrl>H:\测试环境\20240322HrzGetter2\</PublishUrl>
     <InstallUrl />
     <TargetCulture>zh-chs</TargetCulture>
-    <ApplicationVersion>1.0.0.7</ApplicationVersion>
+    <ApplicationVersion>2.1.2.10</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
-    <UpdateEnabled>true</UpdateEnabled>
-    <UpdateInterval>7</UpdateInterval>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateInterval>0</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <ProductName>AI2GetKeyword</ProductName>
-    <PublisherName />
+    <ProductName>HrzGetter</ProductName>
+    <PublisherName>秦睿征</PublisherName>
     <SupportUrl />
-    <FriendlyName>AI2GetKeyword</FriendlyName>
+    <FriendlyName>HrzGetter</FriendlyName>
     <OfficeApplicationDescription />
     <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
@@ -234,11 +234,13 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="MainRibbon_Sub.resx">
       <DependentUpon>MainRibbon_Sub.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="AI2GetKeyword_TemporaryKey.pfx" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -270,6 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GetKeyword.py" />
+    <None Include="Resources\Regex.png" />
     <EmbeddedResource Include="MainRibbon_Sub.xml" />
     <EmbeddedResource Include="Ribbon.xml" />
   </ItemGroup>
@@ -281,7 +284,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>AI2GetKeyword_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>372CE4A65191553744CE9226935F71999825DBC6</ManifestCertificateThumbprint>

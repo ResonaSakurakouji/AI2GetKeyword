@@ -95,7 +95,8 @@
             // 
             this.help_btn.Label = "【帮助信息】";
             this.help_btn.Name = "help_btn";
-            this.help_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.RegexInput_Click);
+            this.help_btn.SuperTip = "点击以查看帮助信息";
+            this.help_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.HELP_btn_Click);
             // 
             // dim_btn
             // 
@@ -250,14 +251,17 @@
             // Regex
             // 
             this.Regex.Items.Add(this.RegexInput);
-            this.Regex.Label = "正则表达式";
+            this.Regex.Label = "Regex";
             this.Regex.Name = "Regex";
             // 
             // RegexInput
             // 
-            this.RegexInput.Label = "正则输入框";
+            this.RegexInput.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.RegexInput.Image = global::AI2GetKeyword.Properties.Resources.Regex;
+            this.RegexInput.Label = "正则输入";
             this.RegexInput.Name = "RegexInput";
-            this.RegexInput.SuperTip = "单击以显示或隐藏窗口";
+            this.RegexInput.ShowImage = true;
+            this.RegexInput.SuperTip = "单击以显示或隐藏正则输入窗口";
             this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.help_btn_Click);
             // 
             // group1
