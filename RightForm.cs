@@ -17,7 +17,7 @@ namespace AI2GetKeyword
             if (CustomTask == null)
             {
                 // new一个用户窗体GetWorkbookData
-                GetWorkbookData userControl1 = new GetWorkbookData();
+                RegexMatch_Sub userControl1 = new RegexMatch_Sub();
                 /*
                 Globals.ThisAddIn表示对于当前的VSTO插件的引用，
                 CustomTaskPanes是一个属性，它提供了对VSTO插件中自定义任务窗格的访问。

@@ -1,6 +1,6 @@
 ﻿namespace AI2GetKeyword
 {
-    partial class GetWorkbookData
+    partial class RegexMatch_Sub
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -32,6 +32,7 @@
             this.Regex_Check_btn = new System.Windows.Forms.Button();
             this.Regex_InputBox = new System.Windows.Forms.TextBox();
             this.Regex_Return_btn = new System.Windows.Forms.Button();
+            this.Regex_OverWrite_chb = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // Regex_InputTitle
@@ -66,7 +67,6 @@
             this.Regex_InputBox.Name = "Regex_InputBox";
             this.Regex_InputBox.Size = new System.Drawing.Size(128, 21);
             this.Regex_InputBox.TabIndex = 3;
-            this.Regex_InputBox.Text = "//";
             this.Regex_InputBox.TextChanged += new System.EventHandler(this.Regex_InputBox_Changed);
             // 
             // Regex_Return_btn
@@ -75,12 +75,25 @@
             this.Regex_Return_btn.ForeColor = System.Drawing.Color.Black;
             this.Regex_Return_btn.Location = new System.Drawing.Point(7, 59);
             this.Regex_Return_btn.Name = "Regex_Return_btn";
-            this.Regex_Return_btn.Size = new System.Drawing.Size(181, 23);
+            this.Regex_Return_btn.Size = new System.Drawing.Size(87, 23);
             this.Regex_Return_btn.TabIndex = 4;
-            this.Regex_Return_btn.Text = "将结果返回至设定好的生成区域";
+            this.Regex_Return_btn.Text = "进行正则匹配";
             this.Regex_Return_btn.UseVisualStyleBackColor = false;
             this.Regex_Return_btn.Visible = false;
             this.Regex_Return_btn.Click += new System.EventHandler(this.Regex_Return_btn_Click);
+            // 
+            // Regex_OverWrite_chb
+            // 
+            this.Regex_OverWrite_chb.AutoEllipsis = true;
+            this.Regex_OverWrite_chb.AutoSize = true;
+            this.Regex_OverWrite_chb.Font = new System.Drawing.Font("黑体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Regex_OverWrite_chb.Location = new System.Drawing.Point(109, 61);
+            this.Regex_OverWrite_chb.Name = "Regex_OverWrite_chb";
+            this.Regex_OverWrite_chb.Size = new System.Drawing.Size(82, 18);
+            this.Regex_OverWrite_chb.TabIndex = 5;
+            this.Regex_OverWrite_chb.Text = "覆盖生成";
+            this.Regex_OverWrite_chb.UseVisualStyleBackColor = true;
+            this.Regex_OverWrite_chb.CheckedChanged += new System.EventHandler(this.Regex_OverWrite_chb_CheckedChanged);
             // 
             // GetWorkbookData
             // 
@@ -90,7 +103,8 @@
             this.AutoScrollMargin = new System.Drawing.Size(4, 4);
             this.BackColor = System.Drawing.Color.Silver;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.Regex_OverWrite_chb);
             this.Controls.Add(this.Regex_Return_btn);
             this.Controls.Add(this.Regex_InputBox);
             this.Controls.Add(this.Regex_Check_btn);
@@ -98,7 +112,7 @@
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("黑体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "GetWorkbookData";
-            this.Size = new System.Drawing.Size(200, 495);
+            this.Size = new System.Drawing.Size(202, 497);
             this.Load += new System.EventHandler(this.GetWorkbookData_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -110,5 +124,6 @@
         private System.Windows.Forms.Button Regex_Check_btn;
         private System.Windows.Forms.TextBox Regex_InputBox;
         private System.Windows.Forms.Button Regex_Return_btn;
+        private System.Windows.Forms.CheckBox Regex_OverWrite_chb;
     }
 }

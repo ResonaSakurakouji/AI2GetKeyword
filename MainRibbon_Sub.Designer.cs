@@ -1,13 +1,13 @@
 ﻿namespace AI2GetKeyword
 {
-    partial class Ribbon1 : Microsoft.Office.Tools.Ribbon.RibbonBase
+    partial class MainRibbon_Sub : Microsoft.Office.Tools.Ribbon.RibbonBase
     {
         /// <summary>
         /// 必需的设计器变量。
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        public Ribbon1()
+        public MainRibbon_Sub()
             : base(Globals.Factory.GetRibbonFactory())
         {
             InitializeComponent();
@@ -52,7 +52,7 @@
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl16 = this.Factory.CreateRibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl17 = this.Factory.CreateRibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl18 = this.Factory.CreateRibbonDropDownItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainRibbon_Sub));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.Start = this.Factory.CreateRibbonGroup();
             this.help_btn = this.Factory.CreateRibbonButton();
@@ -275,9 +275,9 @@
             this.finalExe_btn.ShowImage = true;
             this.finalExe_btn.Visible = false;
             // 
-            // Ribbon1
+            // MainRibbon_Sub
             // 
-            this.Name = "Ribbon1";
+            this.Name = "MainRibbon_Sub";
             this.RibbonType = "Microsoft.Excel.Workbook";
             this.Tabs.Add(this.tab1);
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.Ribbon1_Load);
@@ -315,9 +315,9 @@
 
     partial class ThisRibbonCollection
     {
-        internal Ribbon1 Ribbon1
+        internal MainRibbon_Sub Ribbon1
         {
-            get { return this.GetRibbon<Ribbon1>(); }
+            get { return this.GetRibbon<MainRibbon_Sub>(); }
         }
     }
 }

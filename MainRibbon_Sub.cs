@@ -9,7 +9,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace AI2GetKeyword
 {
-    public partial class Ribbon1
+    public partial class MainRibbon_Sub
     {
         string pyPath = @"C:\HrzMethods\AI2GetKeyword\AI2GetKeyword.py";
         string newDirectory = @"C:\HrzMethods\AI2GetKeyword\";
@@ -17,13 +17,13 @@ namespace AI2GetKeyword
         string pyArgFileName = @"Arg.txt";
         string pyResultFileName = @"Result.txt";
 
-        public Excel.Application Excelapp;
+        public static Excel.Application Excelapp;
         RightForm common = new RightForm();
-        private Excel.Range targetRange;
-        private string[,] sourceValues = null;
+        public static Excel.Range targetRange;
+        public static string[,] sourceValues = null;
         private string[,] pyResultValues = null;
-        private int rowCount;
-        private int columnCount;
+        public static int rowCount;
+        public static int columnCount;
         private string ent_label_ = "PERSON"; // 要提取的类型
         private string precise_mode = "1"; // 1：开启精确模式
         private bool overwrite_mode = false; // true: 开启覆写模式
@@ -256,6 +256,7 @@ namespace AI2GetKeyword
                 pyResultValues = new string[rowCount, columnCount];
                 string resultStr2 = resultStr.Replace("[[","");
                 resultStr2 = resultStr2.Replace("]]", "");
+                resultStr2 = resultStr2.Replace("\\ufeff", ""); // 处理零宽度空格的问题
                 string[] resultList2 = resultStr2.Replace("], [", "⛵").Split('⛵');
                 long resultList2Index = 0;
                 for (int row = 0; row < rowCount; row += 1)

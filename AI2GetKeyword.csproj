@@ -214,17 +214,17 @@
   -->
   <ItemGroup>
     <Compile Include="RightForm.cs" />
-    <Compile Include="GetWorkbookData.cs">
+    <Compile Include="RegexMatch_Sub.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GetWorkbookData.Designer.cs">
-      <DependentUpon>GetWorkbookData.cs</DependentUpon>
+    <Compile Include="RegexMatch_Sub.Designer.cs">
+      <DependentUpon>RegexMatch_Sub.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="GetWorkbookData.resx">
-      <DependentUpon>GetWorkbookData.cs</DependentUpon>
+    <EmbeddedResource Include="RegexMatch_Sub.resx">
+      <DependentUpon>RegexMatch_Sub.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -235,8 +235,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Ribbon1.resx">
-      <DependentUpon>Ribbon1.cs</DependentUpon>
+    <EmbeddedResource Include="MainRibbon_Sub.resx">
+      <DependentUpon>MainRibbon_Sub.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="AI2GetKeyword_TemporaryKey.pfx" />
     <None Include="packages.config" />
@@ -251,11 +251,11 @@
     <Compile Include="Ribbon.cs">
       <XmlRibbon>true</XmlRibbon>
     </Compile>
-    <Compile Include="Ribbon1.cs">
+    <Compile Include="MainRibbon_Sub.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Ribbon1.Designer.cs">
-      <DependentUpon>Ribbon1.cs</DependentUpon>
+    <Compile Include="MainRibbon_Sub.Designer.cs">
+      <DependentUpon>MainRibbon_Sub.cs</DependentUpon>
     </Compile>
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
@@ -270,7 +270,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GetKeyword.py" />
-    <EmbeddedResource Include="Ribbon1.xml" />
+    <EmbeddedResource Include="MainRibbon_Sub.xml" />
     <EmbeddedResource Include="Ribbon.xml" />
   </ItemGroup>
   <PropertyGroup>
