@@ -57,8 +57,8 @@ namespace AI2GetKeyword
                 try
                 {
                     Regex.IsMatch(string.Empty, regex_text);
-                    regex_resultsB = new bool[MainRibbon_Sub.rowCount, MainRibbon_Sub.columnCount];
-                    regex_resultsS = new string[MainRibbon_Sub.rowCount, MainRibbon_Sub.columnCount];
+                    regex_resultsB = new bool[MainRibbon_Sub.globalRowCount, MainRibbon_Sub.globalColumnCount];
+                    regex_resultsS = new string[MainRibbon_Sub.globalRowCount, MainRibbon_Sub.globalColumnCount];
                     if (MainRibbon_Sub.sourceValues != null)
                     {
                         for (int row = 0; row < MainRibbon_Sub.sourceValues.GetLength(0); row += 1)
@@ -115,9 +115,9 @@ namespace AI2GetKeyword
 
         private void Regex_Return_btn_Click(object sender, EventArgs e)
         {
-            for (int row = 1; row <= MainRibbon_Sub.rowCount; row += 1)
+            for (int row = 1; row <= MainRibbon_Sub.globalRowCount; row += 1)
             {
-                for (int column = 1; column <= MainRibbon_Sub.columnCount; column += 1)
+                for (int column = 1; column <= MainRibbon_Sub.globalColumnCount; column += 1)
                 {
                     Excel.Range cell = MainRibbon_Sub.targetRange.Cells[row, column];
                     if (cell.Value == null)

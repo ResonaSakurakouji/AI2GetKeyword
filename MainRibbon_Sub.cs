@@ -1,5 +1,7 @@
 ﻿using Microsoft.Office.Tools.Ribbon;
+using stdole;
 using System.Diagnostics;
+using System.Drawing.Text;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +23,13 @@ namespace AI2GetKeyword
         public static Excel.Range targetRange;
         public static string[,] sourceValues = null;
         private string[,] pyResultValues = null;
-        public static int rowCount;
-        public static int columnCount;
+        public static int globalRowCount;
+        public static int globalColumnCount;
         private string ent_label_ = "PERSON"; // 要提取的类型
         private string precise_mode = "1"; // 1：开启精确模式
         private bool overwrite_mode = false; // true: 开启覆写模式
+
+        private static string[,] sourcePicURLs = null;
 
         public override string ToString()
         {
@@ -67,6 +71,7 @@ namespace AI2GetKeyword
             将当前VSTO插件中的Excel应用程序对象赋值给 Excelapp 变量。这样就可以在代码的其他部分使用 Excelapp 变量来操作Excel应用程序。
             */
             Excelapp = Globals.ThisAddIn.Application;
+            urlHead_islt.Text = "https";
             CratePyFile();
         }
 
@@ -80,13 +85,13 @@ namespace AI2GetKeyword
             Excel.Range selectedRange = Globals.ThisAddIn.Application.Selection as Excel.Range;
             if (selectedRange != null)
             {
-                rowCount = selectedRange.Rows.Count;
-                columnCount = selectedRange.Columns.Count;
-                sourceValues = new string[rowCount, columnCount];
+                globalRowCount = selectedRange.Rows.Count;
+                globalColumnCount = selectedRange.Columns.Count;
+                sourceValues = new string[globalRowCount, globalColumnCount];
                 // 遍历选中的单元格，将值保存到二维数组中
-                for (int row = 1; row <= rowCount; row += 1)
+                for (int row = 1; row <= globalRowCount; row += 1)
                 {
-                    for (int column = 1; column <= columnCount; column += 1)
+                    for (int column = 1; column <= globalColumnCount; column += 1)
                     {
                         Excel.Range cell = selectedRange.Cells[row, column];
                         object cellValue = cell.Value;
@@ -101,12 +106,14 @@ namespace AI2GetKeyword
                         }
                     }
                 }
-                MessageBox.Show($"选中的区域【{rowCount}】行【{columnCount}】列\n数据源区域的值已成功保存", "数据源设置成功");
+                MessageBox.Show($"选中的区域【{globalRowCount}】行【{globalColumnCount}】列\n数据源区域的值已成功保存", "数据源设置成功");
                 dim_btn.Label = "重设数据区域";
                 set_btn.Label = "生成数据区域";
                 set_btn.Visible = true;
                 execute_btn.Visible = false;
                 execute_btn.Enabled = false;
+                getPicExe_btn.Visible = false;
+                getPicExe_btn.Enabled = false;
             }
         }
         private void set_btn_Click(object sender, RibbonControlEventArgs e)
@@ -115,31 +122,43 @@ namespace AI2GetKeyword
             {
                 MessageBox.Show("在设定生成区域之前，请先设置数据源区域！", "无效的设置");
             }
-
+            bool passFlag = false;
             // 获取当前选中的单元格集合
             Excel.Range saveedRange = Globals.ThisAddIn.Application.Selection as Excel.Range;
             if (saveedRange != null)
             {
                 int set_rowCount = saveedRange.Rows.Count;
                 int set_columnCount = saveedRange.Columns.Count;
-                if ((set_rowCount == rowCount) && (set_columnCount == columnCount))
+                if ((set_rowCount == globalRowCount) && (set_columnCount == globalColumnCount))
                 {
                     targetRange = saveedRange;
+                    passFlag = true;
+                } 
+                else if((set_rowCount == 1) && (set_columnCount == 1))
+                {
+                    targetRange = saveedRange.Resize[globalRowCount, globalColumnCount];
+                    passFlag = true;
+                }
+                else
+                {
+                    MessageBox.Show($"请选择【{globalRowCount}】行，【{globalColumnCount}】列的区域，或者指定目标区域的左上角", "无效的生成区域");
+                    return;
+                }
+                
+                if (passFlag)
+                {
                     MessageBox.Show("生成区域已经指定成功\n参数配置完成后即可执行", "操作成功");
                     set_btn.Label = "重设生成区域";
                     execute_btn.Label = "开始执行";
                     execute_btn.Visible = true;
                     execute_btn.Enabled = true;
-                }
-                else
-                {
-                    MessageBox.Show($"请选择【{rowCount}】行，【{columnCount}】列的区域", "无效的生成区域");
-                    return;
+                    getPicExe_btn.Visible = true;
+                    getPicExe_btn.Enabled = true;
                 }
             }
             else
             {
-                MessageBox.Show($"请选择【{rowCount}】行，【{columnCount}】列的区域", "未选择区域");
+                MessageBox.Show($"请选择【{globalRowCount}】行，【{globalColumnCount}】列的区域，或者指定目标区域的左上角", "未选择区域");
                 return;
             }
         }
@@ -252,15 +271,15 @@ namespace AI2GetKeyword
             }
             else
             {
-                pyResultValues = new string[rowCount, columnCount];
+                pyResultValues = new string[globalRowCount, globalColumnCount];
                 string resultStr2 = resultStr.Replace("[[", "");
                 resultStr2 = resultStr2.Replace("]]", "");
-                resultStr2 = resultStr2.Replace("\\ufeff", ""); // 处理零宽度空格的问题
+                resultStr2 = resultStr2.Replace("'\\ufeff", "'"); // 处理零宽度空格的问题
                 string[] resultList2 = resultStr2.Replace("], [", "⛵").Split('⛵');
                 long resultList2Index = 0;
-                for (int row = 0; row < rowCount; row += 1)
+                for (int row = 0; row < globalRowCount; row += 1)
                 {
-                    for (int column = 0; column < columnCount; column += 1)
+                    for (int column = 0; column < globalColumnCount; column += 1)
                     {
                         resultCellValue = resultList2[resultList2Index].Replace(@"'", @"");
                         resultCellValue = resultCellValue.Replace(@",", @" ");
@@ -268,9 +287,9 @@ namespace AI2GetKeyword
                         resultList2Index += 1;
                     }
                 }
-                for (int row = 1; row <= rowCount; row += 1)
+                for (int row = 1; row <= globalRowCount; row += 1)
                 {
-                    for (int column = 1; column <= columnCount; column += 1)
+                    for (int column = 1; column <= globalColumnCount; column += 1)
                     {
                         Excel.Range cell = targetRange.Cells[row, column];
                         if (cell.Value == null)
@@ -368,14 +387,57 @@ namespace AI2GetKeyword
             MessageBox.Show(MainHelp, "帮助简介");
         }
 
+        // 以下是根据URL获取图片的部分模块
         private void getPicExe_btn_Click(object sender, RibbonControlEventArgs e)
         {
+            string value_i = string.Empty;
+            sourcePicURLs = new string[globalRowCount, globalColumnCount];
+            // 首先检查是否开启了严格模式
+            if (accurateMode_chb.Checked)  // 开启状态
+            {
+                // 遍历数据源二维数组，将值保存到URL二维数组中
+                for (int row = 1; row <= globalRowCount; row += 1)
+                {
+                    for (int column = 1; column <= globalColumnCount; column += 1)
+                    {
+                        value_i = sourceValues[row - 1, column - 1];
+                        // sourcePicURLs[row - 1, column - 1] = $"<table><img src='{value_i}' width='128' height='128'/></table>";
+                        // 插入图片
+                        if (!string.IsNullOrEmpty(value_i))
+                        {
+                            Excel.Range cell = targetRange.Cells[row, column];
+                            try
+                            {
+                                Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
+                                    value_i,
+                                    Microsoft.Office.Core.MsoTriState.msoFalse, 
+                                    Microsoft.Office.Core.MsoTriState.msoCTrue,
+                                    cell.Left, cell.Top, cell.Width, cell.Height
+                                );
+                                // 将图片内嵌到单元格中
+                                picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
+                            }
+                            catch 
+                            {
+                                ;
+                            }
 
+
+                        }
+                    }
+                }
+            }
         }
 
-        private void comboBox1_TextChanged(object sender, RibbonControlEventArgs e)
+        private void urlHead_islt_TextChanged(object sender, RibbonControlEventArgs e)
         {
+            return;
+        }
 
+        private void accurateMode_chb_Click(object sender, RibbonControlEventArgs e)
+        {
+            urlHead_islt.Visible = !accurateMode_chb.Checked;
+            return;
         }
     }
 }
