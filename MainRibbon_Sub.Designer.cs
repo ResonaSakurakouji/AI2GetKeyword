@@ -34,6 +34,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainRibbon_Sub));
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl1 = this.Factory.CreateRibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl2 = this.Factory.CreateRibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl3 = this.Factory.CreateRibbonDropDownItem();
@@ -52,34 +53,35 @@
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl16 = this.Factory.CreateRibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl17 = this.Factory.CreateRibbonDropDownItem();
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl18 = this.Factory.CreateRibbonDropDownItem();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainRibbon_Sub));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.Start = this.Factory.CreateRibbonGroup();
             this.help_btn = this.Factory.CreateRibbonButton();
             this.dim_btn = this.Factory.CreateRibbonButton();
             this.set_btn = this.Factory.CreateRibbonButton();
+            this.url2img = this.Factory.CreateRibbonGroup();
+            this.comboBox1 = this.Factory.CreateRibbonComboBox();
+            this.splitSymbol = this.Factory.CreateRibbonEditBox();
+            this.getPicExe_btn = this.Factory.CreateRibbonButton();
+            this.Regex = this.Factory.CreateRibbonGroup();
+            this.RegexInput = this.Factory.CreateRibbonButton();
             this.NLP_Get = this.Factory.CreateRibbonGroup();
             this.get_type_slct = this.Factory.CreateRibbonComboBox();
             this.precise_chb = this.Factory.CreateRibbonCheckBox();
             this.overwrite_chb = this.Factory.CreateRibbonCheckBox();
             this.execute_btn = this.Factory.CreateRibbonButton();
-            this.Regex = this.Factory.CreateRibbonGroup();
-            this.RegexInput = this.Factory.CreateRibbonButton();
-            this.group1 = this.Factory.CreateRibbonGroup();
-            this.finalExe_btn = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.Start.SuspendLayout();
-            this.NLP_Get.SuspendLayout();
+            this.url2img.SuspendLayout();
             this.Regex.SuspendLayout();
-            this.group1.SuspendLayout();
+            this.NLP_Get.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
             // 
             this.tab1.Groups.Add(this.Start);
-            this.tab1.Groups.Add(this.NLP_Get);
+            this.tab1.Groups.Add(this.url2img);
             this.tab1.Groups.Add(this.Regex);
-            this.tab1.Groups.Add(this.group1);
+            this.tab1.Groups.Add(this.NLP_Get);
             this.tab1.Label = "Hrz Getter";
             this.tab1.Name = "tab1";
             // 
@@ -112,6 +114,54 @@
             this.set_btn.SuperTip = "指定一个区域用于输出提取后的数据，必须与数据源区域大小相等！";
             this.set_btn.Visible = false;
             this.set_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.set_btn_Click);
+            // 
+            // url2img
+            // 
+            this.url2img.Items.Add(this.comboBox1);
+            this.url2img.Items.Add(this.splitSymbol);
+            this.url2img.Items.Add(this.getPicExe_btn);
+            this.url2img.Label = "批量获取图片";
+            this.url2img.Name = "url2img";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Label = "协议";
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Text = null;
+            this.comboBox1.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.comboBox1_TextChanged);
+            // 
+            // splitSymbol
+            // 
+            this.splitSymbol.Label = "分隔";
+            this.splitSymbol.Name = "splitSymbol";
+            this.splitSymbol.ScreenTip = "分隔符";
+            this.splitSymbol.SuperTip = "如果同一个单元格内有多个图片URL，请指定这些URL的分隔符，否则会造成无法正常提取";
+            this.splitSymbol.Text = null;
+            // 
+            // getPicExe_btn
+            // 
+            this.getPicExe_btn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.getPicExe_btn.Image = ((System.Drawing.Image)(resources.GetObject("getPicExe_btn.Image")));
+            this.getPicExe_btn.Label = "执行获取";
+            this.getPicExe_btn.Name = "getPicExe_btn";
+            this.getPicExe_btn.ShowImage = true;
+            this.getPicExe_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.getPicExe_btn_Click);
+            // 
+            // Regex
+            // 
+            this.Regex.Items.Add(this.RegexInput);
+            this.Regex.Label = "Regex";
+            this.Regex.Name = "Regex";
+            // 
+            // RegexInput
+            // 
+            this.RegexInput.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.RegexInput.Image = global::AI2GetKeyword.Properties.Resources.Regex;
+            this.RegexInput.Label = "正则输入";
+            this.RegexInput.Name = "RegexInput";
+            this.RegexInput.ShowImage = true;
+            this.RegexInput.SuperTip = "单击以显示或隐藏正则输入窗口";
+            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.help_btn_Click);
             // 
             // NLP_Get
             // 
@@ -248,37 +298,6 @@
             this.execute_btn.Visible = false;
             this.execute_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.execute_btn_Click);
             // 
-            // Regex
-            // 
-            this.Regex.Items.Add(this.RegexInput);
-            this.Regex.Label = "Regex";
-            this.Regex.Name = "Regex";
-            // 
-            // RegexInput
-            // 
-            this.RegexInput.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.RegexInput.Image = global::AI2GetKeyword.Properties.Resources.Regex;
-            this.RegexInput.Label = "正则输入";
-            this.RegexInput.Name = "RegexInput";
-            this.RegexInput.ShowImage = true;
-            this.RegexInput.SuperTip = "单击以显示或隐藏正则输入窗口";
-            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.help_btn_Click);
-            // 
-            // group1
-            // 
-            this.group1.Items.Add(this.finalExe_btn);
-            this.group1.Label = "没想好怎么写";
-            this.group1.Name = "group1";
-            this.group1.Visible = false;
-            // 
-            // finalExe_btn
-            // 
-            this.finalExe_btn.Image = ((System.Drawing.Image)(resources.GetObject("finalExe_btn.Image")));
-            this.finalExe_btn.Label = "执行填充";
-            this.finalExe_btn.Name = "finalExe_btn";
-            this.finalExe_btn.ShowImage = true;
-            this.finalExe_btn.Visible = false;
-            // 
             // MainRibbon_Sub
             // 
             this.Name = "MainRibbon_Sub";
@@ -289,12 +308,12 @@
             this.tab1.PerformLayout();
             this.Start.ResumeLayout(false);
             this.Start.PerformLayout();
-            this.NLP_Get.ResumeLayout(false);
-            this.NLP_Get.PerformLayout();
+            this.url2img.ResumeLayout(false);
+            this.url2img.PerformLayout();
             this.Regex.ResumeLayout(false);
             this.Regex.PerformLayout();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
+            this.NLP_Get.ResumeLayout(false);
+            this.NLP_Get.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -313,8 +332,10 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup Start;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton help_btn;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton execute_btn;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton finalExe_btn;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton getPicExe_btn;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup url2img;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox splitSymbol;
+        internal Microsoft.Office.Tools.Ribbon.RibbonComboBox comboBox1;
     }
 
     partial class ThisRibbonCollection

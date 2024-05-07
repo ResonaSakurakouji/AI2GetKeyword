@@ -367,5 +367,15 @@ namespace AI2GetKeyword
                 "您也可以通过在按钮上悬停鼠标来尝试获取更多帮助信息;\r\n";
             MessageBox.Show(MainHelp, "帮助简介");
         }
+
+        private void getPicExe_btn_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        private void comboBox1_TextChanged(object sender, RibbonControlEventArgs e)
+        {
+
+        }
     }
 }
