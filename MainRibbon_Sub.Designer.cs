@@ -62,7 +62,7 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.Start = this.Factory.CreateRibbonGroup();
             this.url2img = this.Factory.CreateRibbonGroup();
-            this.splitSymbol = this.Factory.CreateRibbonEditBox();
+            this.splitSymbol_ipt = this.Factory.CreateRibbonEditBox();
             this.accurateMode_chb = this.Factory.CreateRibbonCheckBox();
             this.urlHead_islt = this.Factory.CreateRibbonComboBox();
             this.Regex = this.Factory.CreateRibbonGroup();
@@ -102,20 +102,20 @@
             // 
             // url2img
             // 
-            this.url2img.Items.Add(this.splitSymbol);
+            this.url2img.Items.Add(this.splitSymbol_ipt);
             this.url2img.Items.Add(this.accurateMode_chb);
             this.url2img.Items.Add(this.urlHead_islt);
             this.url2img.Items.Add(this.getPicExe_btn);
             this.url2img.Label = "批量获取图片";
             this.url2img.Name = "url2img";
             // 
-            // splitSymbol
+            // splitSymbol_ipt
             // 
-            this.splitSymbol.Label = "分隔";
-            this.splitSymbol.Name = "splitSymbol";
-            this.splitSymbol.ScreenTip = "分隔符";
-            this.splitSymbol.SuperTip = "如果同一个单元格内有多个图片URL，请指定这些URL的分隔符，否则会造成无法正常提取";
-            this.splitSymbol.Text = null;
+            this.splitSymbol_ipt.Label = "分隔";
+            this.splitSymbol_ipt.Name = "splitSymbol_ipt";
+            this.splitSymbol_ipt.ScreenTip = "分隔符";
+            this.splitSymbol_ipt.SuperTip = "如果同一个单元格内有多个图片URL，请指定这些URL的分隔符，否则会造成无法正常提取";
+            this.splitSymbol_ipt.Text = null;
             // 
             // accurateMode_chb
             // 
@@ -172,6 +172,7 @@
             this.NLP_Get.Items.Add(this.execute_btn);
             this.NLP_Get.Label = "NLP提词";
             this.NLP_Get.Name = "NLP_Get";
+            this.NLP_Get.Visible = false;
             // 
             // get_type_slct
             // 
@@ -314,7 +315,7 @@
             // 
             this.getPicExe_btn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.getPicExe_btn.Enabled = false;
-            this.getPicExe_btn.Image = ((System.Drawing.Image)(resources.GetObject("getPicExe_btn.Image")));
+            this.getPicExe_btn.Image = global::AI2GetKeyword.Properties.Resources.url2img;
             this.getPicExe_btn.Label = "执行获取";
             this.getPicExe_btn.Name = "getPicExe_btn";
             this.getPicExe_btn.ShowImage = true;
@@ -378,7 +379,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton execute_btn;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton getPicExe_btn;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup url2img;
-        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox splitSymbol;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox splitSymbol_ipt;
         internal Microsoft.Office.Tools.Ribbon.RibbonComboBox urlHead_islt;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox accurateMode_chb;
     }

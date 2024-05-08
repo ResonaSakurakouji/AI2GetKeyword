@@ -390,43 +390,56 @@ namespace AI2GetKeyword
         // 以下是根据URL获取图片的部分模块
         private void getPicExe_btn_Click(object sender, RibbonControlEventArgs e)
         {
-            string value_i = string.Empty;
+            string value_i;
+            string[] values_i;
             sourcePicURLs = new string[globalRowCount, globalColumnCount];
-            // 首先检查是否开启了严格模式
-            if (accurateMode_chb.Checked)  // 开启状态
+            // 遍历数据源二维数组，将值保存到URL二维数组中
+            for (int row = 1; row <= globalRowCount; row += 1)
             {
-                // 遍历数据源二维数组，将值保存到URL二维数组中
-                for (int row = 1; row <= globalRowCount; row += 1)
+                for (int column = 1; column <= globalColumnCount; column += 1)
                 {
-                    for (int column = 1; column <= globalColumnCount; column += 1)
+                    value_i = sourceValues[row - 1, column - 1];
+                    // sourcePicURLs[row - 1, column - 1] = $"<table><img src='{value_i}' width='128' height='128'/></table>";
+                    // 检查是否开启了严格模式
+                    if (accurateMode_chb.Checked)  // 开启状态
                     {
-                        value_i = sourceValues[row - 1, column - 1];
-                        // sourcePicURLs[row - 1, column - 1] = $"<table><img src='{value_i}' width='128' height='128'/></table>";
-                        // 插入图片
                         if (!string.IsNullOrEmpty(value_i))
                         {
                             Excel.Range cell = targetRange.Cells[row, column];
-                            try
+                            cell.Clear();
+                            if (splitSymbol_ipt.Text.Equals(""))
                             {
-                                Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
-                                    value_i,
-                                    Microsoft.Office.Core.MsoTriState.msoFalse, 
-                                    Microsoft.Office.Core.MsoTriState.msoCTrue,
-                                    cell.Left, cell.Top, cell.Width, cell.Height
-                                );
-                                // 将图片内嵌到单元格中
-                                picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
+                                values_i = new string[] { value_i };
                             }
-                            catch 
+                            else
                             {
-                                ;
+                                char[] value_chars = splitSymbol_ipt.Text.ToCharArray();
+                                values_i = value_i.Split(value_chars, System.StringSplitOptions.RemoveEmptyEntries);
                             }
-
-
+                            int pic_count = values_i.Length;
+                            for (int i = 0; i < pic_count; i += 1)
+                            {
+                                try
+                                {
+                                    Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
+                                        values_i[i],
+                                        Microsoft.Office.Core.MsoTriState.msoFalse,
+                                        Microsoft.Office.Core.MsoTriState.msoCTrue,
+                                        cell.Left + i * cell.Width / pic_count, cell.Top, cell.Width / pic_count, cell.Height
+                                    );
+                                    // 将图片内嵌到单元格中
+                                    picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
+                                }
+                                catch
+                                {
+                                    cell.Value += $"\n【{values_i[i]}】不是一个合法的图片url";
+                                }
+                            }
                         }
                     }
                 }
             }
+            
         }
 
         private void urlHead_islt_TextChanged(object sender, RibbonControlEventArgs e)

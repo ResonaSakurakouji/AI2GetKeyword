@@ -272,6 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GetKeyword.py" />
+    <None Include="Resources\url2img.png" />
     <None Include="Resources\Regex.png" />
     <EmbeddedResource Include="MainRibbon_Sub.xml" />
     <EmbeddedResource Include="Ribbon.xml" />
