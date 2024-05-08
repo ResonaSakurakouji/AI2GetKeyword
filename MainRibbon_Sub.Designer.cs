@@ -61,20 +61,20 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainRibbon_Sub));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.Start = this.Factory.CreateRibbonGroup();
+            this.help_btn = this.Factory.CreateRibbonButton();
+            this.dim_btn = this.Factory.CreateRibbonButton();
+            this.set_btn = this.Factory.CreateRibbonButton();
             this.url2img = this.Factory.CreateRibbonGroup();
-            this.splitSymbol_ipt = this.Factory.CreateRibbonEditBox();
             this.accurateMode_chb = this.Factory.CreateRibbonCheckBox();
+            this.splitSymbol_ipt = this.Factory.CreateRibbonEditBox();
             this.urlHead_islt = this.Factory.CreateRibbonComboBox();
+            this.getPicExe_btn = this.Factory.CreateRibbonButton();
             this.Regex = this.Factory.CreateRibbonGroup();
+            this.RegexInput = this.Factory.CreateRibbonButton();
             this.NLP_Get = this.Factory.CreateRibbonGroup();
             this.get_type_slct = this.Factory.CreateRibbonComboBox();
             this.precise_chb = this.Factory.CreateRibbonCheckBox();
             this.overwrite_chb = this.Factory.CreateRibbonCheckBox();
-            this.help_btn = this.Factory.CreateRibbonButton();
-            this.dim_btn = this.Factory.CreateRibbonButton();
-            this.set_btn = this.Factory.CreateRibbonButton();
-            this.getPicExe_btn = this.Factory.CreateRibbonButton();
-            this.RegexInput = this.Factory.CreateRibbonButton();
             this.execute_btn = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.Start.SuspendLayout();
@@ -100,14 +100,44 @@
             this.Start.Label = "区域定义";
             this.Start.Name = "Start";
             // 
+            // help_btn
+            // 
+            this.help_btn.Label = "【帮助信息】";
+            this.help_btn.Name = "help_btn";
+            this.help_btn.SuperTip = "点击以查看帮助信息";
+            this.help_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.HELP_btn_Click);
+            // 
+            // dim_btn
+            // 
+            this.dim_btn.Label = "定义数据区域";
+            this.dim_btn.Name = "dim_btn";
+            this.dim_btn.SuperTip = "将所选区域设置为数据源，区域必须连续，否则极易出现问题";
+            this.dim_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dim_btn_Click);
+            // 
+            // set_btn
+            // 
+            this.set_btn.Label = "定义生成区域";
+            this.set_btn.Name = "set_btn";
+            this.set_btn.SuperTip = "指定一个区域用于输出提取后的数据，必须与数据源区域大小相等！";
+            this.set_btn.Visible = false;
+            this.set_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.set_btn_Click);
+            // 
             // url2img
             // 
-            this.url2img.Items.Add(this.splitSymbol_ipt);
             this.url2img.Items.Add(this.accurateMode_chb);
+            this.url2img.Items.Add(this.splitSymbol_ipt);
             this.url2img.Items.Add(this.urlHead_islt);
             this.url2img.Items.Add(this.getPicExe_btn);
             this.url2img.Label = "批量获取图片";
             this.url2img.Name = "url2img";
+            // 
+            // accurateMode_chb
+            // 
+            this.accurateMode_chb.Label = "严格模式";
+            this.accurateMode_chb.Name = "accurateMode_chb";
+            this.accurateMode_chb.ScreenTip = "启用严格模式";
+            this.accurateMode_chb.SuperTip = "如果你需要获取的url有多种协议，可以启用这个严格模式；\n但是！务必确保单元格中不包括任何其他信息！\n\n开启后将无法从单元格中识别url文本段！";
+            this.accurateMode_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.accurateMode_chb_Click);
             // 
             // splitSymbol_ipt
             // 
@@ -116,14 +146,7 @@
             this.splitSymbol_ipt.ScreenTip = "分隔符";
             this.splitSymbol_ipt.SuperTip = "如果同一个单元格内有多个图片URL，请指定这些URL的分隔符，否则会造成无法正常提取";
             this.splitSymbol_ipt.Text = null;
-            // 
-            // accurateMode_chb
-            // 
-            this.accurateMode_chb.Label = "严格模式";
-            this.accurateMode_chb.Name = "accurateMode_chb";
-            this.accurateMode_chb.ScreenTip = "启用严格模式";
-            this.accurateMode_chb.SuperTip = "如果你需要获取的url有多种协议，可以启用这个协议；\n但是！务必确保单元格中不包括任何其他信息！\n\n开启后将无法从单元格中提取url文本段！";
-            this.accurateMode_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.accurateMode_chb_Click);
+            this.splitSymbol_ipt.Visible = false;
             // 
             // urlHead_islt
             // 
@@ -138,13 +161,17 @@
             ribbonDropDownItemImpl3.SuperTip = "如果你的路径是\n\"C:\\Users\\...\"\n之类的完整的路径文本，请使用本地文件协议。";
             ribbonDropDownItemImpl4.Label = "data";
             ribbonDropDownItemImpl4.ScreenTip = "数据协议";
-            ribbonDropDownItemImpl4.SuperTip = "如果你拥有目标图片的完整编码信息如\n\"image/png;base64...\"\n这样的文本，那么使用数据协议可以轻而易举的将这团“乱码”转化为可视图片。";
+            ribbonDropDownItemImpl4.SuperTip = "如果你拥有目标图片的完整编码信息并以类似\n" +
+                "\"data:image/png;base64...\"\n" +
+                "这样的文本开头，那么使用数据协议可以轻而易举的将这团“乱码”转化为可视图片。\n" +
+                "请注意这个协议下不支持自动识别，仅支持识别base64编码，同时也无法做到分割单元格内的多个base64字符串；\n" +
+                "注意excel单个单元格可能无法保存完整的base64代码从而导致文件损坏！";
             ribbonDropDownItemImpl5.Label = "ftp";
             ribbonDropDownItemImpl5.ScreenTip = "文件传输标准协议";
             ribbonDropDownItemImpl5.SuperTip = "曾经极为流行的网络文件传输标准协议；\n但是现在并不算非常常见了。";
             ribbonDropDownItemImpl6.Label = "RURL";
             ribbonDropDownItemImpl6.ScreenTip = "相对路径协议";
-            ribbonDropDownItemImpl6.SuperTip = "对于一般用户来说用不到这个协议……\n因为网络下载下来的文件并不会携带相对路径的链接；\n如果你明白自己想要做什么，请选择正确的链接。";
+            ribbonDropDownItemImpl6.SuperTip = "如果你真的需要使用相对路径，请你清洗自己的数据后使用严格模式和分隔符进行图片获取，这个软件没有能力自动识别相对路径。";
             this.urlHead_islt.Items.Add(ribbonDropDownItemImpl1);
             this.urlHead_islt.Items.Add(ribbonDropDownItemImpl2);
             this.urlHead_islt.Items.Add(ribbonDropDownItemImpl3);
@@ -154,15 +181,37 @@
             this.urlHead_islt.Label = "协议";
             this.urlHead_islt.Name = "urlHead_islt";
             this.urlHead_islt.ScreenTip = "协议名";
-            this.urlHead_islt.SuperTip = "这个选框将帮助你自动识别单元格内的“可能是URL的信息”并获取图片；\n绝大多数情况下，这个选项应该和你的链接开头字母一致；当然你也可以自定协议。";
+            this.urlHead_islt.SuperTip = "这个选框将帮助你自动识别单元格内的“可能是URL的信息”并获取图片；\n绝大多数情况下，这个选项应该和你的链接开头字母一致；当然你也可以自定协议。如果你什么都不写，" +
+    "那么将默认使用https，http，ftp三种格式";
             this.urlHead_islt.Text = null;
             this.urlHead_islt.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.urlHead_islt_TextChanged);
+            // 
+            // getPicExe_btn
+            // 
+            this.getPicExe_btn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.getPicExe_btn.Enabled = false;
+            this.getPicExe_btn.Image = global::AI2GetKeyword.Properties.Resources.url2img;
+            this.getPicExe_btn.Label = "执行获取";
+            this.getPicExe_btn.Name = "getPicExe_btn";
+            this.getPicExe_btn.ShowImage = true;
+            this.getPicExe_btn.Visible = false;
+            this.getPicExe_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.getPicExe_btn_Click);
             // 
             // Regex
             // 
             this.Regex.Items.Add(this.RegexInput);
             this.Regex.Label = "Regex";
             this.Regex.Name = "Regex";
+            // 
+            // RegexInput
+            // 
+            this.RegexInput.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.RegexInput.Image = global::AI2GetKeyword.Properties.Resources.Regex;
+            this.RegexInput.Label = "正则输入";
+            this.RegexInput.Name = "RegexInput";
+            this.RegexInput.ShowImage = true;
+            this.RegexInput.SuperTip = "单击以显示或隐藏正则输入窗口";
+            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.help_btn_Click);
             // 
             // NLP_Get
             // 
@@ -288,49 +337,6 @@
             this.overwrite_chb.ScreenTip = "生成内容将直接覆盖原有内容";
             this.overwrite_chb.SuperTip = "勾选后，生成内容将直接覆盖原有内容，此覆盖很可能无法撤销！\n若取消勾选，生成结果不会覆盖已有数据的区域，但是对于无法识别出结果的内容，多次识别并不会提高成功率";
             this.overwrite_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.overwrite_chb_Click);
-            // 
-            // help_btn
-            // 
-            this.help_btn.Label = "【帮助信息】";
-            this.help_btn.Name = "help_btn";
-            this.help_btn.SuperTip = "点击以查看帮助信息";
-            this.help_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.HELP_btn_Click);
-            // 
-            // dim_btn
-            // 
-            this.dim_btn.Label = "定义数据区域";
-            this.dim_btn.Name = "dim_btn";
-            this.dim_btn.SuperTip = "将所选区域设置为数据源，区域必须连续，否则极易出现问题";
-            this.dim_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dim_btn_Click);
-            // 
-            // set_btn
-            // 
-            this.set_btn.Label = "定义生成区域";
-            this.set_btn.Name = "set_btn";
-            this.set_btn.SuperTip = "指定一个区域用于输出提取后的数据，必须与数据源区域大小相等！";
-            this.set_btn.Visible = false;
-            this.set_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.set_btn_Click);
-            // 
-            // getPicExe_btn
-            // 
-            this.getPicExe_btn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.getPicExe_btn.Enabled = false;
-            this.getPicExe_btn.Image = global::AI2GetKeyword.Properties.Resources.url2img;
-            this.getPicExe_btn.Label = "执行获取";
-            this.getPicExe_btn.Name = "getPicExe_btn";
-            this.getPicExe_btn.ShowImage = true;
-            this.getPicExe_btn.Visible = false;
-            this.getPicExe_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.getPicExe_btn_Click);
-            // 
-            // RegexInput
-            // 
-            this.RegexInput.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.RegexInput.Image = global::AI2GetKeyword.Properties.Resources.Regex;
-            this.RegexInput.Label = "正则输入";
-            this.RegexInput.Name = "RegexInput";
-            this.RegexInput.ShowImage = true;
-            this.RegexInput.SuperTip = "单击以显示或隐藏正则输入窗口";
-            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.help_btn_Click);
             // 
             // execute_btn
             // 

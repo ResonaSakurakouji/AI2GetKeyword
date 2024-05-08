@@ -1,12 +1,13 @@
 ﻿using Microsoft.Office.Tools.Ribbon;
-using stdole;
+using System;
+using System.Drawing;
 using System.Diagnostics;
-using System.Drawing.Text;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using static Community.CsharpSqlite.Sqlite3;
 
 namespace AI2GetKeyword
 {
@@ -30,6 +31,7 @@ namespace AI2GetKeyword
         private bool overwrite_mode = false; // true: 开启覆写模式
 
         private static string[,] sourcePicURLs = null;
+        private static string urlHeadStr;
 
         public override string ToString()
         {
@@ -399,15 +401,15 @@ namespace AI2GetKeyword
                 for (int column = 1; column <= globalColumnCount; column += 1)
                 {
                     value_i = sourceValues[row - 1, column - 1];
+                    Excel.Range cell = targetRange.Cells[row, column];
                     // sourcePicURLs[row - 1, column - 1] = $"<table><img src='{value_i}' width='128' height='128'/></table>";
                     // 检查是否开启了严格模式
-                    if (accurateMode_chb.Checked)  // 开启状态
+                    if (accurateMode_chb.Checked)  // 严格模式开启状态，此时协议文本没有意义
                     {
                         if (!string.IsNullOrEmpty(value_i))
                         {
-                            Excel.Range cell = targetRange.Cells[row, column];
                             cell.Clear();
-                            if (splitSymbol_ipt.Text.Equals(""))
+                            if (splitSymbol_ipt.Text == "")
                             {
                                 values_i = new string[] { value_i };
                             }
@@ -437,6 +439,35 @@ namespace AI2GetKeyword
                             }
                         }
                     }
+                    else  // 严格模式没有开启，此时分隔符没有意义
+                    {
+                        string regexHeadStr;
+                        string regexFullStr;
+                        if (urlHead_islt.Text == "")
+                        {
+                            regexHeadStr = "https|http|ftp";
+                            regexFullStr = $"^({regexHeadStr})://[a-zA-Z0-9-.]+.[a-zA-Z]{{2,}}(:[0-9]{{1,5}})?(/[S]*)?$";
+                        }
+                        else if (urlHead_islt.Text == "file")
+                        {
+                            regexFullStr = "^[a-zA-Z]:(\\_@#$%^&*()\\-+\\s.]+)+[\\w\\u4e00-\\u9fa5{}_@#$%^&*()\\-+\\s.]+(\\.[\\w\\u4e00-\\u9fa5\\_\\-]+)+.(png|jpg|jpeg|gif|bmp)$";
+                        }
+                        else if (urlHead_islt.Text == "RURL")
+                        {
+                            MessageBox.Show("如果你真的需要使用相对路径，请你清洗自己的数据后使用【严格模式】并根据情况输入【分隔符】进行图片获取。", "抱歉，我无能为力");
+                            return;
+                        }
+                        else if (urlHead_islt.Text == "data")
+                        {
+                            string base64Str = $"<table><img src='{value_i}'/ width='{cell.Width}' height='{cell.Height}'></table>";
+                            Clipboard.SetText(base64Str);
+                            cell.PasteSpecial();
+                        }
+                        else
+                        {
+                            regexFullStr = $"^({urlHead_islt.Text})://[a-zA-Z0-9-.]+.[a-zA-Z]{{2,}}(:[0-9]{{1,5}})?(/[S]*)?$";
+                        }
+                    }
                 }
             }
             
@@ -450,6 +481,7 @@ namespace AI2GetKeyword
         private void accurateMode_chb_Click(object sender, RibbonControlEventArgs e)
         {
             urlHead_islt.Visible = !accurateMode_chb.Checked;
+            splitSymbol_ipt.Visible = accurateMode_chb.Checked;
             return;
         }
     }
