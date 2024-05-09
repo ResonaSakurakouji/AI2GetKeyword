@@ -158,17 +158,15 @@
             ribbonDropDownItemImpl2.SuperTip = "这是最普通的Web标准协议；\n如果你希望使用私人服务器并没有ssl证书，可以使用这个选项。";
             ribbonDropDownItemImpl3.Label = "file";
             ribbonDropDownItemImpl3.ScreenTip = "本地文件协议";
-            ribbonDropDownItemImpl3.SuperTip = "如果你的路径是\n\"C:\\Users\\...\"\n之类的完整的路径文本，请使用本地文件协议。";
+            ribbonDropDownItemImpl3.SuperTip = "如果你的路径是\n\"C:\\Users\\...\"\n之类的完整的路径文本，请使用本地文件协议。\n文件层级表示请使用Windows系统指定的反斜杠\\。";
             ribbonDropDownItemImpl4.Label = "data";
             ribbonDropDownItemImpl4.ScreenTip = "数据协议";
-            ribbonDropDownItemImpl4.SuperTip = "如果你拥有目标图片的完整编码信息并以类似\n" +
-                "\"data:image/png;base64...\"\n" +
-                "这样的文本开头，那么使用数据协议可以轻而易举的将这团“乱码”转化为可视图片。\n" +
-                "请注意这个协议下不支持自动识别，仅支持识别base64编码，同时也无法做到分割单元格内的多个base64字符串；\n" +
-                "注意excel单个单元格可能无法保存完整的base64代码从而导致文件损坏！";
+            ribbonDropDownItemImpl4.SuperTip = "如果你拥有目标图片的完整编码信息并以类似\n\"data:image/png;base64...\"\n这样的文本开头，那么使用数据协议可以轻而易举的将这团“乱码”转化为" +
+    "可视图片。\n请注意这个协议下不支持自动识别，仅支持识别base64编码，同时也无法做到分割单元格内的多个base64字符串；\n注意excel单个单元格可能无法保" +
+    "存完整的base64代码(1024个字符)从而导致图片损坏！";
             ribbonDropDownItemImpl5.Label = "ftp";
             ribbonDropDownItemImpl5.ScreenTip = "文件传输标准协议";
-            ribbonDropDownItemImpl5.SuperTip = "曾经极为流行的网络文件传输标准协议；\n但是现在并不算非常常见了。";
+            ribbonDropDownItemImpl5.SuperTip = "曾经极为流行的网络文件传输标准协议；\n但是现在并不算特别常见了。";
             ribbonDropDownItemImpl6.Label = "RURL";
             ribbonDropDownItemImpl6.ScreenTip = "相对路径协议";
             ribbonDropDownItemImpl6.SuperTip = "如果你真的需要使用相对路径，请你清洗自己的数据后使用严格模式和分隔符进行图片获取，这个软件没有能力自动识别相对路径。";
@@ -182,7 +180,7 @@
             this.urlHead_islt.Name = "urlHead_islt";
             this.urlHead_islt.ScreenTip = "协议名";
             this.urlHead_islt.SuperTip = "这个选框将帮助你自动识别单元格内的“可能是URL的信息”并获取图片；\n绝大多数情况下，这个选项应该和你的链接开头字母一致；当然你也可以自定协议。如果你什么都不写，" +
-    "那么将默认使用https，http，ftp三种格式";
+    "那么将默认使用https格式";
             this.urlHead_islt.Text = null;
             this.urlHead_islt.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.urlHead_islt_TextChanged);
             // 

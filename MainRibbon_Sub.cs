@@ -1,13 +1,11 @@
 ﻿using Microsoft.Office.Tools.Ribbon;
-using System;
-using System.Drawing;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
-using static Community.CsharpSqlite.Sqlite3;
 
 namespace AI2GetKeyword
 {
@@ -402,13 +400,13 @@ namespace AI2GetKeyword
                 {
                     value_i = sourceValues[row - 1, column - 1];
                     Excel.Range cell = targetRange.Cells[row, column];
+                    cell.Clear();
                     // sourcePicURLs[row - 1, column - 1] = $"<table><img src='{value_i}' width='128' height='128'/></table>";
                     // 检查是否开启了严格模式
                     if (accurateMode_chb.Checked)  // 严格模式开启状态，此时协议文本没有意义
                     {
                         if (!string.IsNullOrEmpty(value_i))
                         {
-                            cell.Clear();
                             if (splitSymbol_ipt.Text == "")
                             {
                                 values_i = new string[] { value_i };
@@ -435,6 +433,7 @@ namespace AI2GetKeyword
                                 catch
                                 {
                                     cell.Value += $"\n【{values_i[i]}】不是一个合法的图片url";
+                                    continue;
                                 }
                             }
                         }
@@ -442,19 +441,23 @@ namespace AI2GetKeyword
                     else  // 严格模式没有开启，此时分隔符没有意义
                     {
                         string regexHeadStr;
-                        string regexFullStr;
+                        string regexFullStr = string.Empty;
+                        bool regexMode = true;
                         if (urlHead_islt.Text == "")
                         {
                             regexHeadStr = "https|http|ftp";
-                            regexFullStr = $"^({regexHeadStr})://[a-zA-Z0-9-.]+.[a-zA-Z]{{2,}}(:[0-9]{{1,5}})?(/[S]*)?$";
+                            regexFullStr = "^(" + regexHeadStr + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|;|:|@|&|=|\\+|$|,|/|\\?|#|\\[|\\])+$";
+                            regexMode = true;
                         }
                         else if (urlHead_islt.Text == "file")
                         {
                             regexFullStr = "^[a-zA-Z]:(\\_@#$%^&*()\\-+\\s.]+)+[\\w\\u4e00-\\u9fa5{}_@#$%^&*()\\-+\\s.]+(\\.[\\w\\u4e00-\\u9fa5\\_\\-]+)+.(png|jpg|jpeg|gif|bmp)$";
+                            regexMode = true;
                         }
                         else if (urlHead_islt.Text == "RURL")
                         {
                             MessageBox.Show("如果你真的需要使用相对路径，请你清洗自己的数据后使用【严格模式】并根据情况输入【分隔符】进行图片获取。", "抱歉，我无能为力");
+                            regexMode = false;
                             return;
                         }
                         else if (urlHead_islt.Text == "data")
@@ -462,10 +465,42 @@ namespace AI2GetKeyword
                             string base64Str = $"<table><img src='{value_i}'/ width='{cell.Width}' height='{cell.Height}'></table>";
                             Clipboard.SetText(base64Str);
                             cell.PasteSpecial();
+                            regexMode = false;
                         }
                         else
                         {
-                            regexFullStr = $"^({urlHead_islt.Text})://[a-zA-Z0-9-.]+.[a-zA-Z]{{2,}}(:[0-9]{{1,5}})?(/[S]*)?$";
+                            regexFullStr = "^(" + urlHead_islt.Text + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|;|:|@|&|=|\\+|$|,|/|\\?|#|\\[|\\])+(\\w|-|\\.|~|!|\\*|'|\\(|\\)|;|:|@|&|=|\\+|$|,|/|\\?|#|\\[|\\])$";
+                            regexMode = true;
+                        }
+
+                        if (regexMode)
+                        {
+                            Regex regex = new Regex(regexFullStr);
+                            MatchCollection matches = regex.Matches(value_i);
+                            string[] result = new string[matches.Count];
+                            foreach (Match match in matches)
+                            {
+                                result[match.Index] = match.Value;
+                            }
+                            for (int i = 0; i < result.Length; i+=1)
+                            {
+                                try
+                                {
+                                    Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
+                                        result[i],
+                                        Microsoft.Office.Core.MsoTriState.msoFalse,
+                                        Microsoft.Office.Core.MsoTriState.msoCTrue,
+                                        cell.Left + i * cell.Width / result.Length, cell.Top, cell.Width / result.Length, cell.Height
+                                    );
+                                    // 将图片内嵌到单元格中
+                                    picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
+                                }
+                                catch
+                                {
+                                    cell.Value += $"\n【{result[i]}】不是一个合法的图片url";
+                                    continue;
+                                }
+                            }
                         }
                     }
                 }
