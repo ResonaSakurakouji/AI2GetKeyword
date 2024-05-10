@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Tools.Ribbon;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -24,12 +25,62 @@ namespace AI2GetKeyword
         private string[,] pyResultValues = null;
         public static int globalRowCount;
         public static int globalColumnCount;
+        public static int missionsCount = 0;
+        public static int finishedCount = 0;
+        public static int finishedPercent = 0;
+
         private string ent_label_ = "PERSON"; // 要提取的类型
         private string precise_mode = "1"; // 1：开启精确模式
         private bool overwrite_mode = false; // true: 开启覆写模式
 
         private static string[,] sourcePicURLs = null;
         private static string urlHeadStr;
+
+        // 初始化百分比进度
+        public void defaultTheMissionCount()
+        {
+            missionsCount = globalColumnCount * globalRowCount;
+            finishedCount = 0;
+            finishedPercent = 0;
+        }
+        public void defaultTheFinishedPercent()
+        {
+            finishedCount = 0;
+            finishedPercent = 0;
+        }
+        public bool thePercentAdd1()
+        {
+            finishedCount += 1;
+            finishedPercent = 100 * missionsCount / finishedCount;
+            //return pauseAndStop();
+            return false;
+        }
+
+        public static bool pauseAndStop()
+        {
+            // 检查是否请求暂停处理
+            if (ThisAddIn.pauseState0)
+            {
+                // 弹出消息框显示当前进度并询问是否继续
+                DialogResult result = MessageBox.Show("是否继续处理？" +
+                    $"\n任务数量：{missionsCount};" +
+                    $"\n完成数量：{finishedCount};" +
+                    $"\n完成进度：{finishedPercent}%;", 
+                    "暂停", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.No)
+                {
+                    // 如果用户选择不继续，则停止处理
+                    return true;
+                }
+                else
+                {
+                    // 如果用户选择继续，则继续处理
+                    ThisAddIn.pauseState0 = false;
+                    return false;
+                }
+            }
+            return false;
+        }
 
         public override string ToString()
         {
@@ -154,6 +205,7 @@ namespace AI2GetKeyword
                     execute_btn.Enabled = true;
                     getPicExe_btn.Visible = true;
                     getPicExe_btn.Enabled = true;
+                    defaultTheMissionCount();
                 }
             }
             else
@@ -198,7 +250,7 @@ namespace AI2GetKeyword
 
         private async void execute_btn_Click(object sender, RibbonControlEventArgs e)
         {
-            // MessageBox.Show(this.ToString());
+            
             execute_btn.Enabled = false;
             execute_btn.Label = "执行中...";
             Globals.ThisAddIn.Application.EnableEvents = false;
@@ -264,6 +316,7 @@ namespace AI2GetKeyword
         }
         private void SetResultRangeValues(string resultStr)
         {
+            defaultTheFinishedPercent();
             string resultCellValue;
             if (resultStr == null || resultStr.Equals(""))
             {
@@ -301,6 +354,7 @@ namespace AI2GetKeyword
                             cell.Value = pyResultValues[row - 1, column - 1];
                         }
                         cell.WrapText = false;
+                        if (thePercentAdd1()) { return; }
                     }
                 }
             }
@@ -390,6 +444,7 @@ namespace AI2GetKeyword
         // 以下是根据URL获取图片的部分模块
         private void getPicExe_btn_Click(object sender, RibbonControlEventArgs e)
         {
+            defaultTheFinishedPercent();
             string value_i;
             string[] values_i;
             sourcePicURLs = new string[globalRowCount, globalColumnCount];
@@ -401,7 +456,6 @@ namespace AI2GetKeyword
                     value_i = sourceValues[row - 1, column - 1];
                     Excel.Range cell = targetRange.Cells[row, column];
                     cell.Clear();
-                    // sourcePicURLs[row - 1, column - 1] = $"<table><img src='{value_i}' width='128' height='128'/></table>";
                     // 检查是否开启了严格模式
                     if (accurateMode_chb.Checked)  // 严格模式开启状态，此时协议文本没有意义
                     {
@@ -432,8 +486,7 @@ namespace AI2GetKeyword
                                 }
                                 catch
                                 {
-                                    cell.Value += $"\n【{values_i[i]}】不是一个合法的图片url";
-                                    continue;
+                                    cell.Value += $"由于网络原因获取失败，或者【{values_i[i]}】不是一个合法的图片url\n";
                                 }
                             }
                         }
@@ -446,12 +499,12 @@ namespace AI2GetKeyword
                         if (urlHead_islt.Text == "")
                         {
                             regexHeadStr = "https|http|ftp";
-                            regexFullStr = "^(" + regexHeadStr + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|;|:|@|&|=|\\+|$|,|/|\\?|#|\\[|\\])+$";
+                            regexFullStr = "^(" + regexHeadStr + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|@|&|=|\\+|\\$|/|\\?|#|\\[|\\])+";
                             regexMode = true;
                         }
                         else if (urlHead_islt.Text == "file")
                         {
-                            regexFullStr = "^[a-zA-Z]:(\\_@#$%^&*()\\-+\\s.]+)+[\\w\\u4e00-\\u9fa5{}_@#$%^&*()\\-+\\s.]+(\\.[\\w\\u4e00-\\u9fa5\\_\\-]+)+.(png|jpg|jpeg|gif|bmp)$";
+                            regexFullStr = "[a-zA-Z]:(\\\\_@#$%^&*()\\-+\\s.]+)+[\\w\\u4e00-\\u9fa5{}_@#$%^&*()\\-+\\s.]+(\\.[\\w\\u4e00-\\u9fa5\\_\\-]+)+.(png|jpg|jpeg|gif|bmp)$";
                             regexMode = true;
                         }
                         else if (urlHead_islt.Text == "RURL")
@@ -469,7 +522,7 @@ namespace AI2GetKeyword
                         }
                         else
                         {
-                            regexFullStr = "^(" + urlHead_islt.Text + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|;|:|@|&|=|\\+|$|,|/|\\?|#|\\[|\\])+(\\w|-|\\.|~|!|\\*|'|\\(|\\)|;|:|@|&|=|\\+|$|,|/|\\?|#|\\[|\\])$";
+                            regexFullStr = "(" + urlHead_islt.Text + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|@|&|=|\\+|\\$|/|\\?|#|\\[|\\])+";
                             regexMode = true;
                         }
 
@@ -478,9 +531,9 @@ namespace AI2GetKeyword
                             Regex regex = new Regex(regexFullStr);
                             MatchCollection matches = regex.Matches(value_i);
                             string[] result = new string[matches.Count];
-                            foreach (Match match in matches)
+                            for(int i = 0; i < matches.Count; i += 1)
                             {
-                                result[match.Index] = match.Value;
+                                result[i] = matches[i].Value;
                             }
                             for (int i = 0; i < result.Length; i+=1)
                             {
@@ -497,12 +550,16 @@ namespace AI2GetKeyword
                                 }
                                 catch
                                 {
-                                    cell.Value += $"\n【{result[i]}】不是一个合法的图片url";
-                                    continue;
+                                    cell.Value += $"由于网络原因获取失败，或者【{result[i]}】不是一个合法的图片url\n";
                                 }
+                            }
+                            if (matches.Count == 0)
+                            {
+                                cell.Value += $"【{value_i}】中似乎不包括图片url\n";
                             }
                         }
                     }
+                    if (thePercentAdd1()) { return; }
                 }
             }
             

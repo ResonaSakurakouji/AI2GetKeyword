@@ -2,9 +2,15 @@
 {
     public partial class ThisAddIn
     {
+        public static bool pauseState0 = false;
+        public static void PAUSE0()
+        {
+            pauseState0 = true;
+        }
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-
+            //实现不了，TMLGB的
+            //Globals.ThisAddIn.Application.OnKey("p", "PAUSE0");
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
