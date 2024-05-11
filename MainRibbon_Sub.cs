@@ -158,6 +158,12 @@ namespace AI2GetKeyword
                     }
                 }
                 MessageBox.Show($"选中的区域【{globalRowCount}】行【{globalColumnCount}】列\n数据源区域的值已成功保存", "数据源设置成功");
+                if (globalRowCount * globalColumnCount > 100)
+                {
+                    MessageBox.Show($"您选中的区域有{globalRowCount * globalColumnCount}个单元格\n" +
+                        $"数据量较多，执行过程中可能有较长时间无响应\n" +
+                        $"如果要直接执行的话请耐心等待等待", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
                 dim_btn.Label = "重设数据区域";
                 set_btn.Label = "生成数据区域";
                 set_btn.Visible = true;
@@ -504,7 +510,7 @@ namespace AI2GetKeyword
                         }
                         else if (urlHead_islt.Text == "file")
                         {
-                            regexFullStr = "[a-zA-Z]:(\\\\_@#$%^&*()\\-+\\s.]+)+[\\w\\u4e00-\\u9fa5{}_@#$%^&*()\\-+\\s.]+(\\.[\\w\\u4e00-\\u9fa5\\_\\-]+)+.(png|jpg|jpeg|gif|bmp)$";
+                            regexFullStr = "[a-zA-Z]:(\\\\)[^/^;^*^\"^<^>^\\|]+.(png|jpg|jpeg|gif|bmp)";
                             regexMode = true;
                         }
                         else if (urlHead_islt.Text == "RURL")

@@ -113,7 +113,7 @@
             // 
             this.dim_btn.Label = "定义数据区域";
             this.dim_btn.Name = "dim_btn";
-            this.dim_btn.SuperTip = "将所选区域设置为数据源，区域必须连续，否则极易出现问题";
+            this.dim_btn.SuperTip = "将所选区域设置为数据源，区域必须连续";
             this.dim_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dim_btn_Click);
             // 
             // set_btn
@@ -164,7 +164,7 @@
             ribbonDropDownItemImpl2.SuperTip = "这是最普通的Web标准协议；\n如果你希望使用私人服务器并没有ssl证书，可以使用这个选项。";
             ribbonDropDownItemImpl3.Label = "file";
             ribbonDropDownItemImpl3.ScreenTip = "本地文件协议";
-            ribbonDropDownItemImpl3.SuperTip = "如果你的路径是\n\"C:\\Users\\...\"\n之类的完整的路径文本，请使用本地文件协议。\n文件层级表示请使用Windows系统指定的反斜杠\\。";
+            ribbonDropDownItemImpl3.SuperTip = "如果你的路径是\n\"C:\\Users\\...\"\n之类的完整的路径文本，请使用本地文件协议。\n文件层级表示必须使用Windows系统指定的反斜杠\\。";
             ribbonDropDownItemImpl4.Label = "data";
             ribbonDropDownItemImpl4.ScreenTip = "数据协议";
             ribbonDropDownItemImpl4.SuperTip = "如果你拥有目标图片的完整编码信息并以类似\n\"data:image/png;base64...\"\n这样的文本开头，那么使用数据协议可以轻而易举的将这团“乱码”转化为" +
@@ -197,7 +197,9 @@
             this.getPicExe_btn.Image = global::AI2GetKeyword.Properties.Resources.url2img;
             this.getPicExe_btn.Label = "执行获取";
             this.getPicExe_btn.Name = "getPicExe_btn";
+            this.getPicExe_btn.ScreenTip = "点击执行";
             this.getPicExe_btn.ShowImage = true;
+            this.getPicExe_btn.SuperTip = "执行期间excel会发生假死，请不要一次性执行过多的任务";
             this.getPicExe_btn.Visible = false;
             this.getPicExe_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.getPicExe_btn_Click);
             // 
