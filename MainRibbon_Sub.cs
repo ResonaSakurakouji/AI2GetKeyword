@@ -489,12 +489,6 @@ namespace AI2GetKeyword
                             regexFullStr = "[a-zA-Z]:(\\\\)[^/^;^*^\"^<^>^\\|]+.(png|jpg|jpeg|gif|bmp)";
                             regexMode = true;
                         }
-                        else if (urlHead_islt.Text == "RURL")
-                        {
-                            MessageBox.Show("如果你真的需要使用相对路径，请你清洗自己的数据后使用【严格模式】并根据情况输入【分隔符】进行图片获取。", "抱歉，我无能为力");
-                            regexMode = false;
-                            return;
-                        }
                         else if (urlHead_islt.Text == "data")
                         {
                             string base64Str = $"<table><img src='{value_i}'/ width='{cell.Width}' height='{cell.Height}'></table>";
