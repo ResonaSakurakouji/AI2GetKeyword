@@ -56,32 +56,6 @@ namespace AI2GetKeyword
             return false;
         }
 
-        public static bool pauseAndStop()
-        {
-            // 检查是否请求暂停处理
-            if (ThisAddIn.pauseState0)
-            {
-                // 弹出消息框显示当前进度并询问是否继续
-                DialogResult result = MessageBox.Show("是否继续处理？" +
-                    $"\n任务数量：{missionsCount};" +
-                    $"\n完成数量：{finishedCount};" +
-                    $"\n完成进度：{finishedPercent}%;", 
-                    "暂停", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.No)
-                {
-                    // 如果用户选择不继续，则停止处理
-                    return true;
-                }
-                else
-                {
-                    // 如果用户选择继续，则继续处理
-                    ThisAddIn.pauseState0 = false;
-                    return false;
-                }
-            }
-            return false;
-        }
-
         public override string ToString()
         {
             string cellValues_str = "null";
@@ -126,7 +100,7 @@ namespace AI2GetKeyword
             CratePyFile();
         }
 
-        private void help_btn_Click(object sender, RibbonControlEventArgs e)
+        private void regex_btn_Click(object sender, RibbonControlEventArgs e)
         {
             common.ShowCustomTask_Regex();
         }
@@ -157,12 +131,13 @@ namespace AI2GetKeyword
                         }
                     }
                 }
-                MessageBox.Show($"选中的区域【{globalRowCount}】行【{globalColumnCount}】列\n数据源区域的值已成功保存", "数据源设置成功");
+                MessageBox.Show($"选中的区域【{globalRowCount}】行【{globalColumnCount}】列\r\n数据源区域的值已成功保存", "数据源设置成功");
                 if (globalRowCount * globalColumnCount > 100)
                 {
-                    MessageBox.Show($"您选中的区域有{globalRowCount * globalColumnCount}个单元格\n" +
-                        $"数据量较多，执行过程中可能有较长时间无响应\n" +
-                        $"如果要直接执行的话请耐心等待等待", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"您选中的区域有{globalRowCount * globalColumnCount}个单元格\r\n" +
+                        $"数据量较多，执行过程中可能有较长时间无响应\r\n" +
+                        $"建议分多次操作来分部执行\r\n" +
+                        $"如果要直接执行的话请耐心等待", "长时间等待警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 dim_btn.Label = "重设数据区域";
                 set_btn.Label = "生成数据区域";
@@ -204,7 +179,7 @@ namespace AI2GetKeyword
                 
                 if (passFlag)
                 {
-                    MessageBox.Show("生成区域已经指定成功\n参数配置完成后即可执行", "操作成功");
+                    MessageBox.Show("生成区域已经指定成功\n\r参数配置完成后即可执行", "操作成功");
                     set_btn.Label = "重设生成区域";
                     execute_btn.Label = "开始执行";
                     execute_btn.Visible = true;
@@ -439,8 +414,9 @@ namespace AI2GetKeyword
         private void HELP_btn_Click(object sender, RibbonControlEventArgs e)
         {
             string MainHelp = "在您使用Hrz Getter的时候，请遵循以下顺序:\r\n" +
-                "1. 在【区域定义】子选项卡中定义或重设数据区域;\r\n" +
-                "2. 在【区域定义】子选项卡中定义或重设生成数据区域;\r\n" +
+                "0. 请关闭筛选和隐藏行列功能，这会导致选取的行列不连续;\r\n" +
+                "1. 在【区域定义】子选项卡中【定义或重设数据区域】;\r\n" +
+                "2. 在【区域定义】子选项卡中【定义或重设生成区域】;\r\n" +
                 "3. 进行后续其他选项卡的操作;\r\n" +
                 "在进行定义的时候请务必注意源区域与目标区域的大小必须一致;\r\n" +
                 "您也可以通过在按钮上悬停鼠标来尝试获取更多帮助信息;\r\n";
@@ -492,7 +468,7 @@ namespace AI2GetKeyword
                                 }
                                 catch
                                 {
-                                    cell.Value += $"由于网络原因获取失败，或者【{values_i[i]}】不是一个合法的图片url\n";
+                                    cell.Value += $"由于网络原因获取失败，或者【{values_i[i]}】不是一个合法的图片url\r\n";
                                 }
                             }
                         }
@@ -556,12 +532,12 @@ namespace AI2GetKeyword
                                 }
                                 catch
                                 {
-                                    cell.Value += $"由于网络原因获取失败，或者【{result[i]}】不是一个合法的图片url\n";
+                                    cell.Value += $"由于网络原因获取失败，或者【{result[i]}】不是一个合法的图片url\r\n";
                                 }
                             }
                             if (matches.Count == 0)
                             {
-                                cell.Value += $"【{value_i}】中似乎不包括图片url\n";
+                                cell.Value += $"【{value_i}】中似乎不包括图片url\r\n";
                             }
                         }
                     }

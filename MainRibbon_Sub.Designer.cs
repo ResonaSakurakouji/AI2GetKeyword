@@ -64,7 +64,6 @@
             this.help_btn = this.Factory.CreateRibbonButton();
             this.dim_btn = this.Factory.CreateRibbonButton();
             this.set_btn = this.Factory.CreateRibbonButton();
-            this.separator1 = this.Factory.CreateRibbonSeparator();
             this.url2img = this.Factory.CreateRibbonGroup();
             this.accurateMode_chb = this.Factory.CreateRibbonCheckBox();
             this.splitSymbol_ipt = this.Factory.CreateRibbonEditBox();
@@ -98,8 +97,7 @@
             this.Start.Items.Add(this.help_btn);
             this.Start.Items.Add(this.dim_btn);
             this.Start.Items.Add(this.set_btn);
-            this.Start.Items.Add(this.separator1);
-            this.Start.Label = "区域定义与进度";
+            this.Start.Label = "区域定义";
             this.Start.Name = "Start";
             // 
             // help_btn
@@ -123,10 +121,6 @@
             this.set_btn.SuperTip = "指定一个区域用于输出提取后的数据，必须与数据源区域大小相等！";
             this.set_btn.Visible = false;
             this.set_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.set_btn_Click);
-            // 
-            // separator1
-            // 
-            this.separator1.Name = "separator1";
             // 
             // url2img
             // 
@@ -217,7 +211,7 @@
             this.RegexInput.Name = "RegexInput";
             this.RegexInput.ShowImage = true;
             this.RegexInput.SuperTip = "单击以显示或隐藏正则输入窗口";
-            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.help_btn_Click);
+            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.regex_btn_Click);
             // 
             // NLP_Get
             // 
@@ -394,7 +388,6 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox splitSymbol_ipt;
         internal Microsoft.Office.Tools.Ribbon.RibbonComboBox urlHead_islt;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox accurateMode_chb;
-        internal Microsoft.Office.Tools.Ribbon.RibbonSeparator separator1;
     }
 
     partial class ThisRibbonCollection
