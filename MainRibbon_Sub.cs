@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -468,14 +469,21 @@ namespace AI2GetKeyword
                                         // 将图片内嵌到单元格中
                                         picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
                                     }
-                                    catch
+                                    catch (Exception ex)
                                     {
-                                        string xmlStr = $"<table><img src='{values_i[i]}'/ left='{cell.Left + i * cell.Width / pic_count}' width='{cell.Width / pic_count}' height='{cell.Height}'></table>";
+                                        cell.Clear();
+                                        string xmlStr = "<table>";
+                                        for (int j = 0; j < pic_count; j+=1)  // 一旦获取失败则清空并全部使用html文本实现
+                                        {
+                                            xmlStr += $"<img src='{values_i[j]}' width='{cell.Width / pic_count * 1.33}' height='{cell.Height * 1.33}'>";
+                                        }
+                                        xmlStr += $"</table>";
                                         Clipboard.SetText(xmlStr);
                                         cell.PasteSpecial();
+                                        break;
                                     }
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
                                     cell.Value += $"由于网络原因获取失败，或者【{values_i[i]}】不是一个合法的图片url\r\n";
                                 }
@@ -490,7 +498,7 @@ namespace AI2GetKeyword
                         if (urlHead_islt.Text == "")
                         {
                             regexHeadStr = "https|http|ftp";
-                            regexFullStr = "^(" + regexHeadStr + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|@|&|=|\\+|\\$|/|\\?|#|\\[|\\])+";
+                            regexFullStr = "^(" + regexHeadStr + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|@|&|=|\\+|\\$|/|\\?|#|\\[|\\]|%)+";
                             regexMode = true;
                         }
                         else if (urlHead_islt.Text == "file")
@@ -507,7 +515,7 @@ namespace AI2GetKeyword
                         }
                         else
                         {
-                            regexFullStr = "(" + urlHead_islt.Text + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|@|&|=|\\+|\\$|/|\\?|#|\\[|\\])+";
+                            regexFullStr = "(" + urlHead_islt.Text + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|@|&|=|\\+|\\$|/|\\?|#|\\[|\\]|%)+";
                             regexMode = true;
                         }
 
@@ -535,11 +543,18 @@ namespace AI2GetKeyword
                                         // 将图片内嵌到单元格中
                                         picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
                                     }
-                                    catch
+                                    catch (Exception ex)
                                     {
-                                        string xmlStr = $"<table><img src='{result[i]}'/ left='{cell.Left + i * cell.Width / result.Length}' width='{cell.Width / result.Length}' height='{cell.Height}'></table>";
+                                        cell.Clear();
+                                        string xmlStr = "<table>";
+                                        for (int j = 0; j < result.Length; j += 1)  // 一旦获取失败则清空并全部使用html文本实现
+                                        {
+                                            xmlStr += $"<img src='{result[j]}' width='{cell.Width / result.Length * 1.33}' height='{cell.Height * 1.33}'>";
+                                        }
+                                        xmlStr += $"</table>";
                                         Clipboard.SetText(xmlStr);
                                         cell.PasteSpecial();
+                                        break;
                                     }
                                 }
                                 catch
@@ -570,5 +585,53 @@ namespace AI2GetKeyword
             splitSymbol_ipt.Visible = accurateMode_chb.Checked;
             return;
         }
+
+        private void AddPictureToCell(Excel.Range cell, string picUrl, int picCount, int index)
+        {
+            Excel.Worksheet worksheet = cell.Worksheet;
+            float left = (float)(cell.Left + index * cell.Width / picCount);
+            float width = (float)(cell.Width / picCount);
+            float height = (float)(cell.Height);
+
+            string localFilePath = DownloadImage(picUrl);
+
+            try
+            {
+                worksheet.Shapes.AddPicture(localFilePath, Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, left, cell.Top, width, height);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"图片加载失败：{ex.Message}");
+            }
+        }
+
+        private string DownloadImage(string url)
+        {
+            string workbookName = Path.GetFileNameWithoutExtension(Excelapp.ActiveWorkbook.FullName);
+            string folderPath = Path.Combine(Path.GetDirectoryName(Excelapp.ActiveWorkbook.FullName), $"url2img4{workbookName}");
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            string fileName = Path.Combine(folderPath, Path.GetFileName(new Uri(url).LocalPath));
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.DownloadFile(url, fileName);
+            }
+
+            return fileName;
+        }
+
+        private void SaveImagesToLocalFolder()
+        {
+            string workbookName = Path.GetFileNameWithoutExtension(Excelapp.ActiveWorkbook.FullName);
+            string folderPath = Path.Combine(Path.GetDirectoryName(Excelapp.ActiveWorkbook.FullName), $"url2img4{workbookName}");
+
+            MessageBox.Show($"图片已保存到文件夹：{folderPath}");
+        }
+
+
     }
 }
