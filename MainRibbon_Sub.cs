@@ -457,14 +457,23 @@ namespace AI2GetKeyword
                             {
                                 try
                                 {
-                                    Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
-                                        values_i[i],
-                                        Microsoft.Office.Core.MsoTriState.msoFalse,
-                                        Microsoft.Office.Core.MsoTriState.msoCTrue,
-                                        cell.Left + i * cell.Width / pic_count, cell.Top, cell.Width / pic_count, cell.Height
-                                    );
-                                    // 将图片内嵌到单元格中
-                                    picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
+                                    try
+                                    {
+                                        Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
+                                            values_i[i],
+                                            Microsoft.Office.Core.MsoTriState.msoFalse,
+                                            Microsoft.Office.Core.MsoTriState.msoCTrue,
+                                            cell.Left + i * cell.Width / pic_count, cell.Top, cell.Width / pic_count, cell.Height
+                                        );
+                                        // 将图片内嵌到单元格中
+                                        picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
+                                    }
+                                    catch
+                                    {
+                                        string xmlStr = $"<table><img src='{values_i[i]}'/ left='{cell.Left + i * cell.Width / pic_count}' width='{cell.Width / pic_count}' height='{cell.Height}'></table>";
+                                        Clipboard.SetText(xmlStr);
+                                        cell.PasteSpecial();
+                                    }
                                 }
                                 catch
                                 {
@@ -515,14 +524,23 @@ namespace AI2GetKeyword
                             {
                                 try
                                 {
-                                    Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
-                                        result[i],
-                                        Microsoft.Office.Core.MsoTriState.msoFalse,
-                                        Microsoft.Office.Core.MsoTriState.msoCTrue,
-                                        cell.Left + i * cell.Width / result.Length, cell.Top, cell.Width / result.Length, cell.Height
-                                    );
-                                    // 将图片内嵌到单元格中
-                                    picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
+                                    try
+                                    {
+                                        Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
+                                            result[i],
+                                            Microsoft.Office.Core.MsoTriState.msoFalse,
+                                            Microsoft.Office.Core.MsoTriState.msoCTrue,
+                                            cell.Left + i * cell.Width / result.Length, cell.Top, cell.Width / result.Length, cell.Height
+                                        );
+                                        // 将图片内嵌到单元格中
+                                        picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
+                                    }
+                                    catch
+                                    {
+                                        string xmlStr = $"<table><img src='{result[i]}'/ left='{cell.Left + i * cell.Width / result.Length}' width='{cell.Width / result.Length}' height='{cell.Height}'></table>";
+                                        Clipboard.SetText(xmlStr);
+                                        cell.PasteSpecial();
+                                    }
                                 }
                                 catch
                                 {

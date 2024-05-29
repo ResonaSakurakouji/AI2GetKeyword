@@ -60,20 +60,20 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainRibbon_Sub));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.Start = this.Factory.CreateRibbonGroup();
+            this.help_btn = this.Factory.CreateRibbonButton();
+            this.dim_btn = this.Factory.CreateRibbonButton();
+            this.set_btn = this.Factory.CreateRibbonButton();
             this.url2img = this.Factory.CreateRibbonGroup();
             this.accurateMode_chb = this.Factory.CreateRibbonCheckBox();
             this.splitSymbol_ipt = this.Factory.CreateRibbonEditBox();
             this.urlHead_islt = this.Factory.CreateRibbonComboBox();
+            this.getPicExe_btn = this.Factory.CreateRibbonButton();
             this.Regex = this.Factory.CreateRibbonGroup();
+            this.RegexInput = this.Factory.CreateRibbonButton();
             this.NLP_Get = this.Factory.CreateRibbonGroup();
             this.get_type_slct = this.Factory.CreateRibbonComboBox();
             this.precise_chb = this.Factory.CreateRibbonCheckBox();
             this.overwrite_chb = this.Factory.CreateRibbonCheckBox();
-            this.help_btn = this.Factory.CreateRibbonButton();
-            this.dim_btn = this.Factory.CreateRibbonButton();
-            this.set_btn = this.Factory.CreateRibbonButton();
-            this.getPicExe_btn = this.Factory.CreateRibbonButton();
-            this.RegexInput = this.Factory.CreateRibbonButton();
             this.execute_btn = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.Start.SuspendLayout();
@@ -98,6 +98,28 @@
             this.Start.Items.Add(this.set_btn);
             this.Start.Label = "区域定义";
             this.Start.Name = "Start";
+            // 
+            // help_btn
+            // 
+            this.help_btn.Label = "【帮助信息】";
+            this.help_btn.Name = "help_btn";
+            this.help_btn.SuperTip = "点击以查看帮助信息";
+            this.help_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.HELP_btn_Click);
+            // 
+            // dim_btn
+            // 
+            this.dim_btn.Label = "定义数据区域";
+            this.dim_btn.Name = "dim_btn";
+            this.dim_btn.SuperTip = "将所选区域设置为数据源，区域必须连续";
+            this.dim_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dim_btn_Click);
+            // 
+            // set_btn
+            // 
+            this.set_btn.Label = "定义生成区域";
+            this.set_btn.Name = "set_btn";
+            this.set_btn.SuperTip = "指定一个区域用于输出提取后的数据，必须与数据源区域大小相等！";
+            this.set_btn.Visible = false;
+            this.set_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.set_btn_Click);
             // 
             // url2img
             // 
@@ -157,11 +179,34 @@
             this.urlHead_islt.Text = null;
             this.urlHead_islt.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.urlHead_islt_TextChanged);
             // 
+            // getPicExe_btn
+            // 
+            this.getPicExe_btn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.getPicExe_btn.Enabled = false;
+            this.getPicExe_btn.Image = global::AI2GetKeyword.Properties.Resources.url2img;
+            this.getPicExe_btn.Label = "执行获取";
+            this.getPicExe_btn.Name = "getPicExe_btn";
+            this.getPicExe_btn.ScreenTip = "点击执行";
+            this.getPicExe_btn.ShowImage = true;
+            this.getPicExe_btn.SuperTip = "执行期间excel会发生假死，请不要一次性执行过多的任务";
+            this.getPicExe_btn.Visible = false;
+            this.getPicExe_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.getPicExe_btn_Click);
+            // 
             // Regex
             // 
             this.Regex.Items.Add(this.RegexInput);
             this.Regex.Label = "Regex";
             this.Regex.Name = "Regex";
+            // 
+            // RegexInput
+            // 
+            this.RegexInput.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.RegexInput.Image = global::AI2GetKeyword.Properties.Resources.Regex;
+            this.RegexInput.Label = "正则输入";
+            this.RegexInput.Name = "RegexInput";
+            this.RegexInput.ShowImage = true;
+            this.RegexInput.SuperTip = "单击以显示或隐藏正则输入窗口";
+            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.regex_btn_Click);
             // 
             // NLP_Get
             // 
@@ -287,51 +332,6 @@
             this.overwrite_chb.ScreenTip = "生成内容将直接覆盖原有内容";
             this.overwrite_chb.SuperTip = "勾选后，生成内容将直接覆盖原有内容，此覆盖很可能无法撤销！\r\n若取消勾选，生成结果不会覆盖已有数据的区域，但是对于无法识别出结果的内容，多次识别并不会提高成功率";
             this.overwrite_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.overwrite_chb_Click);
-            // 
-            // help_btn
-            // 
-            this.help_btn.Label = "【帮助信息】";
-            this.help_btn.Name = "help_btn";
-            this.help_btn.SuperTip = "点击以查看帮助信息";
-            this.help_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.HELP_btn_Click);
-            // 
-            // dim_btn
-            // 
-            this.dim_btn.Label = "定义数据区域";
-            this.dim_btn.Name = "dim_btn";
-            this.dim_btn.SuperTip = "将所选区域设置为数据源，区域必须连续";
-            this.dim_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dim_btn_Click);
-            // 
-            // set_btn
-            // 
-            this.set_btn.Label = "定义生成区域";
-            this.set_btn.Name = "set_btn";
-            this.set_btn.SuperTip = "指定一个区域用于输出提取后的数据，必须与数据源区域大小相等！";
-            this.set_btn.Visible = false;
-            this.set_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.set_btn_Click);
-            // 
-            // getPicExe_btn
-            // 
-            this.getPicExe_btn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.getPicExe_btn.Enabled = false;
-            this.getPicExe_btn.Image = global::AI2GetKeyword.Properties.Resources.url2img;
-            this.getPicExe_btn.Label = "执行获取";
-            this.getPicExe_btn.Name = "getPicExe_btn";
-            this.getPicExe_btn.ScreenTip = "点击执行";
-            this.getPicExe_btn.ShowImage = true;
-            this.getPicExe_btn.SuperTip = "执行期间excel会发生假死，请不要一次性执行过多的任务";
-            this.getPicExe_btn.Visible = false;
-            this.getPicExe_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.getPicExe_btn_Click);
-            // 
-            // RegexInput
-            // 
-            this.RegexInput.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.RegexInput.Image = global::AI2GetKeyword.Properties.Resources.Regex;
-            this.RegexInput.Label = "正则输入";
-            this.RegexInput.Name = "RegexInput";
-            this.RegexInput.ShowImage = true;
-            this.RegexInput.SuperTip = "单击以显示或隐藏正则输入窗口";
-            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.regex_btn_Click);
             // 
             // execute_btn
             // 
