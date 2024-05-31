@@ -471,16 +471,23 @@ namespace AI2GetKeyword
                                     }
                                     catch (Exception ex)
                                     {
-                                        cell.Clear();
-                                        string xmlStr = "<table>";
-                                        for (int j = 0; j < pic_count; j+=1)  // 一旦获取失败则清空并全部使用html文本实现
+                                        if (allowGetArgs_chb.Checked)
                                         {
-                                            xmlStr += $"<img src='{values_i[j]}' width='{cell.Width / pic_count * 1.33}' height='{cell.Height * 1.33}'>";
+                                            cell.Clear();
+                                            string xmlStr = "<table>";
+                                            for (int j = 0; j < pic_count; j += 1)  // 一旦获取失败则清空并全部使用html文本实现
+                                            {
+                                                xmlStr += $"<img src='{values_i[j]}' width='{cell.Width / pic_count * 1.33}' height='{cell.Height * 1.33}'>";
+                                            }
+                                            xmlStr += $"</table>";
+                                            Clipboard.SetText(xmlStr);
+                                            cell.PasteSpecial();
+                                            break;
                                         }
-                                        xmlStr += $"</table>";
-                                        Clipboard.SetText(xmlStr);
-                                        cell.PasteSpecial();
-                                        break;
+                                        else
+                                        {
+                                            throw ex;
+                                        }
                                     }
                                 }
                                 catch (Exception ex)
@@ -545,19 +552,26 @@ namespace AI2GetKeyword
                                     }
                                     catch (Exception ex)
                                     {
-                                        cell.Clear();
-                                        string xmlStr = "<table>";
-                                        for (int j = 0; j < result.Length; j += 1)  // 一旦获取失败则清空并全部使用html文本实现
+                                        if (allowGetArgs_chb.Checked)
                                         {
-                                            xmlStr += $"<img src='{result[j]}' width='{cell.Width / result.Length * 1.33}' height='{cell.Height * 1.33}'>";
+                                            cell.Clear();
+                                            string xmlStr = "<table>";
+                                            for (int j = 0; j < result.Length; j += 1)  // 一旦获取失败则清空并全部使用html文本实现
+                                            {
+                                                xmlStr += $"<img src='{result[j]}' width='{cell.Width / result.Length * 1.33}' height='{cell.Height * 1.33}'>";
+                                            }
+                                            xmlStr += $"</table>";
+                                            Clipboard.SetText(xmlStr);
+                                            cell.PasteSpecial();
+                                            break;
                                         }
-                                        xmlStr += $"</table>";
-                                        Clipboard.SetText(xmlStr);
-                                        cell.PasteSpecial();
-                                        break;
+                                        else
+                                        {
+                                            throw ex;
+                                        }
                                     }
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
                                     cell.Value += $"由于网络原因获取失败，或者【{result[i]}】不是一个合法的图片url\r\n";
                                 }
@@ -632,6 +646,9 @@ namespace AI2GetKeyword
             MessageBox.Show($"图片已保存到文件夹：{folderPath}");
         }
 
-
+        private void allowGetArgs_chb_Click(object sender, RibbonControlEventArgs e)
+        {
+            return;
+        }
     }
 }

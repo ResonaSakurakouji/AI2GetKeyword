@@ -65,6 +65,7 @@
             this.set_btn = this.Factory.CreateRibbonButton();
             this.url2img = this.Factory.CreateRibbonGroup();
             this.accurateMode_chb = this.Factory.CreateRibbonCheckBox();
+            this.allowGetArgs_chb = this.Factory.CreateRibbonCheckBox();
             this.splitSymbol_ipt = this.Factory.CreateRibbonEditBox();
             this.urlHead_islt = this.Factory.CreateRibbonComboBox();
             this.getPicExe_btn = this.Factory.CreateRibbonButton();
@@ -124,6 +125,7 @@
             // url2img
             // 
             this.url2img.Items.Add(this.accurateMode_chb);
+            this.url2img.Items.Add(this.allowGetArgs_chb);
             this.url2img.Items.Add(this.splitSymbol_ipt);
             this.url2img.Items.Add(this.urlHead_islt);
             this.url2img.Items.Add(this.getPicExe_btn);
@@ -137,6 +139,15 @@
             this.accurateMode_chb.ScreenTip = "启用严格模式";
             this.accurateMode_chb.SuperTip = "如果你需要获取的url有多种协议，可以启用这个严格模式；\r\n但是！务必确保单元格中不包括任何其他信息！\r\n\r\n开启后将无法从单元格中识别url文本段！";
             this.accurateMode_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.accurateMode_chb_Click);
+            // 
+            // allowGetArgs_chb
+            // 
+            this.allowGetArgs_chb.Checked = true;
+            this.allowGetArgs_chb.Label = "兼容加强";
+            this.allowGetArgs_chb.Name = "allowGetArgs_chb";
+            this.allowGetArgs_chb.ScreenTip = "开启加强兼容模式";
+            this.allowGetArgs_chb.SuperTip = "开启此模式后，可将含有get请求的url转化为图片。\r\n但是！对于部分不正确的url会返回空对象，\r\n而不是提醒url有误。";
+            this.allowGetArgs_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.allowGetArgs_chb_Click);
             // 
             // splitSymbol_ipt
             // 
@@ -383,6 +394,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox splitSymbol_ipt;
         internal Microsoft.Office.Tools.Ribbon.RibbonComboBox urlHead_islt;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox accurateMode_chb;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox allowGetArgs_chb;
     }
 
     partial class ThisRibbonCollection
