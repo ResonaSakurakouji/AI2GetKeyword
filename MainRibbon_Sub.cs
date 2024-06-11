@@ -1,9 +1,7 @@
 ﻿using Hrz_ExcelRangeIO;
 using Microsoft.Office.Tools.Ribbon;
-using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -518,52 +516,6 @@ namespace AI2GetKeyword
             urlHead_islt.Visible = !accurateMode_chb.Checked;
             splitSymbol_ipt.Visible = accurateMode_chb.Checked;
             return;
-        }
-
-        private void AddPictureToCell(Excel.Range cell, string picUrl, int picCount, int index)
-        {
-            Excel.Worksheet worksheet = cell.Worksheet;
-            float left = (float)(cell.Left + index * cell.Width / picCount);
-            float width = (float)(cell.Width / picCount);
-            float height = (float)(cell.Height);
-
-            string localFilePath = DownloadImage(picUrl);
-
-            try
-            {
-                worksheet.Shapes.AddPicture(localFilePath, Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, left, cell.Top, width, height);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"图片加载失败：{ex.Message}");
-            }
-        }
-
-        private string DownloadImage(string url)
-        {
-            string workbookName = Path.GetFileNameWithoutExtension(Excelapp.ActiveWorkbook.FullName);
-            string folderPath = Path.Combine(Path.GetDirectoryName(Excelapp.ActiveWorkbook.FullName), $"url2img4{workbookName}");
-
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            string fileName = Path.Combine(folderPath, Path.GetFileName(new Uri(url).LocalPath));
-            using (WebClient webClient = new WebClient())
-            {
-                webClient.DownloadFile(url, fileName);
-            }
-
-            return fileName;
-        }
-
-        private void SaveImagesToLocalFolder()
-        {
-            string workbookName = Path.GetFileNameWithoutExtension(Excelapp.ActiveWorkbook.FullName);
-            string folderPath = Path.Combine(Path.GetDirectoryName(Excelapp.ActiveWorkbook.FullName), $"url2img4{workbookName}");
-
-            MessageBox.Show($"图片已保存到文件夹：{folderPath}");
         }
 
         private void allowGetArgs_chb_Click(object sender, RibbonControlEventArgs e)
