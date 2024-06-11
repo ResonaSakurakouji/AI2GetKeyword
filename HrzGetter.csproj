@@ -213,6 +213,7 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Methods\ExcelRangeIO.cs" />
     <Compile Include="RightForm.cs" />
     <Compile Include="RegexMatch_Sub.cs">
       <SubType>UserControl</SubType>

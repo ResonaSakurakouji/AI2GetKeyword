@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Tools.Ribbon;
+﻿using Hrz_ExcelRangeIO;
+using Microsoft.Office.Tools.Ribbon;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -429,7 +430,7 @@ namespace AI2GetKeyword
         {
             defaultTheFinishedPercent();
             string value_i;
-            string[] values_i;
+            string[] value_i_list;
             sourcePicURLs = new string[globalRowCount, globalColumnCount];
             // 遍历数据源二维数组，将值保存到URL二维数组中
             for (int row = 1; row <= globalRowCount; row += 1)
@@ -446,55 +447,14 @@ namespace AI2GetKeyword
                         {
                             if (splitSymbol_ipt.Text == "")
                             {
-                                values_i = new string[] { value_i };
+                                value_i_list = new string[] { value_i };
                             }
                             else
                             {
                                 char[] value_chars = splitSymbol_ipt.Text.ToCharArray();
-                                values_i = value_i.Split(value_chars, System.StringSplitOptions.RemoveEmptyEntries);
+                                value_i_list = value_i.Split(value_chars, System.StringSplitOptions.RemoveEmptyEntries);
                             }
-                            int pic_count = values_i.Length;
-                            for (int i = 0; i < pic_count; i += 1)
-                            {
-                                try
-                                {
-                                    try
-                                    {
-                                        Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
-                                            values_i[i],
-                                            Microsoft.Office.Core.MsoTriState.msoFalse,
-                                            Microsoft.Office.Core.MsoTriState.msoCTrue,
-                                            cell.Left + i * cell.Width / pic_count, cell.Top, cell.Width / pic_count, cell.Height
-                                        );
-                                        // 将图片内嵌到单元格中
-                                        picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        if (allowGetArgs_chb.Checked)
-                                        {
-                                            cell.Clear();
-                                            string xmlStr = "<table>";
-                                            for (int j = 0; j < pic_count; j += 1)  // 一旦获取失败则清空并全部使用html文本实现
-                                            {
-                                                xmlStr += $"<img src='{values_i[j]}' width='{cell.Width / pic_count * 1.33}' height='{cell.Height * 1.33}'>";
-                                            }
-                                            xmlStr += $"</table>";
-                                            Clipboard.SetText(xmlStr);
-                                            cell.PasteSpecial();
-                                            break;
-                                        }
-                                        else
-                                        {
-                                            throw ex;
-                                        }
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    cell.Value += $"由于网络原因获取失败，或者【{values_i[i]}】不是一个合法的图片url\r\n";
-                                }
-                            }
+                            IOMethod.urls2imgs(cell, allowGetArgs_chb.Checked, value_i_list);
                         }
                     }
                     else  // 严格模式没有开启，此时分隔符没有意义
@@ -530,52 +490,12 @@ namespace AI2GetKeyword
                         {
                             Regex regex = new Regex(regexFullStr);
                             MatchCollection matches = regex.Matches(value_i);
-                            string[] result = new string[matches.Count];
+                            string[] result_list = new string[matches.Count];
                             for(int i = 0; i < matches.Count; i += 1)
                             {
-                                result[i] = matches[i].Value;
+                                result_list[i] = matches[i].Value;
                             }
-                            for (int i = 0; i < result.Length; i+=1)
-                            {
-                                try
-                                {
-                                    try
-                                    {
-                                        Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
-                                            result[i],
-                                            Microsoft.Office.Core.MsoTriState.msoFalse,
-                                            Microsoft.Office.Core.MsoTriState.msoCTrue,
-                                            cell.Left + i * cell.Width / result.Length, cell.Top, cell.Width / result.Length, cell.Height
-                                        );
-                                        // 将图片内嵌到单元格中
-                                        picture.LockAspectRatio = Microsoft.Office.Core.MsoTriState.msoTrue;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        if (allowGetArgs_chb.Checked)
-                                        {
-                                            cell.Clear();
-                                            string xmlStr = "<table>";
-                                            for (int j = 0; j < result.Length; j += 1)  // 一旦获取失败则清空并全部使用html文本实现
-                                            {
-                                                xmlStr += $"<img src='{result[j]}' width='{cell.Width / result.Length * 1.33}' height='{cell.Height * 1.33}'>";
-                                            }
-                                            xmlStr += $"</table>";
-                                            Clipboard.SetText(xmlStr);
-                                            cell.PasteSpecial();
-                                            break;
-                                        }
-                                        else
-                                        {
-                                            throw ex;
-                                        }
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    cell.Value += $"由于网络原因获取失败，或者【{result[i]}】不是一个合法的图片url\r\n";
-                                }
-                            }
+                            IOMethod.urls2imgs(cell, allowGetArgs_chb.Checked, result_list);
                             if (matches.Count == 0)
                             {
                                 cell.Value += $"【{value_i}】中似乎不包括图片url\r\n";
