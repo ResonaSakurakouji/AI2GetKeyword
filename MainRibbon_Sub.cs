@@ -37,18 +37,18 @@ namespace AI2GetKeyword
         private static string urlHeadStr;
 
         // 初始化百分比进度
-        public void defaultTheMissionCount()
+        public void DefaultTheMissionCount()
         {
             missionsCount = globalColumnCount * globalRowCount;
             finishedCount = 0;
             finishedPercent = 0;
         }
-        public void defaultTheFinishedPercent()
+        public void DefaultTheFinishedPercent()
         {
             finishedCount = 0;
             finishedPercent = 0;
         }
-        public bool thePercentAdd1()
+        public bool ThePercentAdd1()
         {
             finishedCount += 1;
             finishedPercent = 100 * missionsCount / finishedCount;
@@ -100,11 +100,11 @@ namespace AI2GetKeyword
             CratePyFile();
         }
 
-        private void regex_btn_Click(object sender, RibbonControlEventArgs e)
+        private void Regex_btn_Click(object sender, RibbonControlEventArgs e)
         {
             common.ShowCustomTask_Regex();
         }
-        private void dim_btn_Click(object sender, RibbonControlEventArgs e)
+        private void Dim_btn_Click(object sender, RibbonControlEventArgs e)
         {
             // 获取当前选中的单元格集合
             Excel.Range selectedRange = Globals.ThisAddIn.Application.Selection as Excel.Range;
@@ -148,7 +148,7 @@ namespace AI2GetKeyword
                 getPicExe_btn.Enabled = false;
             }
         }
-        private void set_btn_Click(object sender, RibbonControlEventArgs e)
+        private void Set_btn_Click(object sender, RibbonControlEventArgs e)
         {
             if (sourceValues == null)
             {
@@ -186,7 +186,7 @@ namespace AI2GetKeyword
                     execute_btn.Enabled = true;
                     getPicExe_btn.Visible = true;
                     getPicExe_btn.Enabled = true;
-                    defaultTheMissionCount();
+                    DefaultTheMissionCount();
                 }
             }
             else
@@ -197,19 +197,19 @@ namespace AI2GetKeyword
         }
 
         // 精准模式
-        private void precise_chb_Click(object sender, RibbonControlEventArgs e)
+        private void Precise_chb_Click(object sender, RibbonControlEventArgs e)
         {
             precise_mode = precise_chb.Checked ? "1" : "3";
         }
 
         // 覆写模式
-        private void overwrite_chb_Click(object sender, RibbonControlEventArgs e)
+        private void Overwrite_chb_Click(object sender, RibbonControlEventArgs e)
         {
             overwrite_mode = overwrite_chb.Checked;
         }
 
         // 获取类型
-        private void get_type_slct_TextChanged(object sender, RibbonControlEventArgs e)
+        private void Get_type_slct_TextChanged(object sender, RibbonControlEventArgs e)
         {
             // 获取下拉选框对象
             RibbonComboBox comboBox = (RibbonComboBox)sender;
@@ -229,7 +229,7 @@ namespace AI2GetKeyword
             // MessageBox.Show(ent_label_);
         }
 
-        private async void execute_btn_Click(object sender, RibbonControlEventArgs e)
+        private async void Execute_btn_Click(object sender, RibbonControlEventArgs e)
         {
             
             execute_btn.Enabled = false;
@@ -297,7 +297,7 @@ namespace AI2GetKeyword
         }
         private void SetResultRangeValues(string resultStr)
         {
-            defaultTheFinishedPercent();
+            DefaultTheFinishedPercent();
             string resultCellValue;
             if (resultStr == null || resultStr.Equals(""))
             {
@@ -335,7 +335,7 @@ namespace AI2GetKeyword
                             cell.Value = pyResultValues[row - 1, column - 1];
                         }
                         cell.WrapText = false;
-                        if (thePercentAdd1()) { return; }
+                        if (ThePercentAdd1()) { return; }
                     }
                 }
             }
@@ -424,9 +424,9 @@ namespace AI2GetKeyword
         }
 
         // 以下是根据URL获取图片的部分模块
-        private void getPicExe_btn_Click(object sender, RibbonControlEventArgs e)
+        private void GetPicExe_btn_Click(object sender, RibbonControlEventArgs e)
         {
-            defaultTheFinishedPercent();
+            DefaultTheFinishedPercent();
             string value_i;
             string[] value_i_list;
             sourcePicURLs = new string[globalRowCount, globalColumnCount];
@@ -452,7 +452,7 @@ namespace AI2GetKeyword
                                 char[] value_chars = splitSymbol_ipt.Text.ToCharArray();
                                 value_i_list = value_i.Split(value_chars, System.StringSplitOptions.RemoveEmptyEntries);
                             }
-                            IOMethod.urls2imgs(cell, allowGetArgs_chb.Checked, value_i_list);
+                            IOMethod.Urls2imgs(cell, allowGetArgs_chb.Checked, value_i_list);
                         }
                     }
                     else  // 严格模式没有开启，此时分隔符没有意义
@@ -463,12 +463,12 @@ namespace AI2GetKeyword
                         if (urlHead_islt.Text == "")
                         {
                             regexHeadStr = "https|http|ftp";
-                            regexFullStr = "^(" + regexHeadStr + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|@|&|=|\\+|\\$|/|\\?|#|\\[|\\]|%)+";
+                            regexFullStr = RegexMethod.Head2Match4Url(regexHeadStr);
                             regexMode = true;
                         }
                         else if (urlHead_islt.Text == "file")
                         {
-                            regexFullStr = "[a-zA-Z]:(\\\\)[^/^;^*^\"^<^>^\\|]+.(png|jpg|jpeg|gif|bmp)";
+                            regexFullStr = RegexMethod.Match4WinPath("img");
                             regexMode = true;
                         }
                         else if (urlHead_islt.Text == "data")
@@ -480,7 +480,7 @@ namespace AI2GetKeyword
                         }
                         else
                         {
-                            regexFullStr = "(" + urlHead_islt.Text + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|@|&|=|\\+|\\$|/|\\?|#|\\[|\\]|%)+";
+                            regexFullStr = RegexMethod.Head2Match4Url(urlHead_islt.Text);
                             regexMode = true;
                         }
 
@@ -493,32 +493,31 @@ namespace AI2GetKeyword
                             {
                                 result_list[i] = matches[i].Value;
                             }
-                            IOMethod.urls2imgs(cell, allowGetArgs_chb.Checked, result_list);
+                            IOMethod.Urls2imgs(cell, allowGetArgs_chb.Checked, result_list);
                             if (matches.Count == 0)
                             {
                                 cell.Value += $"【{value_i}】中似乎不包括图片url\r\n";
                             }
                         }
                     }
-                    if (thePercentAdd1()) { return; }
+                    if (ThePercentAdd1()) { return; }
                 }
             }
-            
         }
 
-        private void urlHead_islt_TextChanged(object sender, RibbonControlEventArgs e)
+        private void UrlHead_islt_TextChanged(object sender, RibbonControlEventArgs e)
         {
             return;
         }
 
-        private void accurateMode_chb_Click(object sender, RibbonControlEventArgs e)
+        private void AccurateMode_chb_Click(object sender, RibbonControlEventArgs e)
         {
             urlHead_islt.Visible = !accurateMode_chb.Checked;
             splitSymbol_ipt.Visible = accurateMode_chb.Checked;
             return;
         }
 
-        private void allowGetArgs_chb_Click(object sender, RibbonControlEventArgs e)
+        private void AllowGetArgs_chb_Click(object sender, RibbonControlEventArgs e)
         {
             return;
         }

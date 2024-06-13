@@ -112,7 +112,7 @@
             this.dim_btn.Label = "定义数据区域";
             this.dim_btn.Name = "dim_btn";
             this.dim_btn.SuperTip = "将所选区域设置为数据源，区域必须连续";
-            this.dim_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dim_btn_Click);
+            this.dim_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Dim_btn_Click);
             // 
             // set_btn
             // 
@@ -120,7 +120,7 @@
             this.set_btn.Name = "set_btn";
             this.set_btn.SuperTip = "指定一个区域用于输出提取后的数据，必须与数据源区域大小相等！";
             this.set_btn.Visible = false;
-            this.set_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.set_btn_Click);
+            this.set_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Set_btn_Click);
             // 
             // url2img
             // 
@@ -138,7 +138,7 @@
             this.accurateMode_chb.Name = "accurateMode_chb";
             this.accurateMode_chb.ScreenTip = "启用严格模式";
             this.accurateMode_chb.SuperTip = "如果你需要获取的url有多种协议，可以启用这个严格模式；\r\n但是！务必确保单元格中不包括任何其他信息！\r\n\r\n开启后将无法从单元格中识别url文本段！";
-            this.accurateMode_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.accurateMode_chb_Click);
+            this.accurateMode_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AccurateMode_chb_Click);
             // 
             // allowGetArgs_chb
             // 
@@ -147,7 +147,7 @@
             this.allowGetArgs_chb.Name = "allowGetArgs_chb";
             this.allowGetArgs_chb.ScreenTip = "开启加强兼容模式";
             this.allowGetArgs_chb.SuperTip = "开启此模式后，可将含有get请求的url转化为图片。\r\n但是！对于部分不正确的url会返回空对象，\r\n而不是提醒url有误。";
-            this.allowGetArgs_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.allowGetArgs_chb_Click);
+            this.allowGetArgs_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AllowGetArgs_chb_Click);
             // 
             // splitSymbol_ipt
             // 
@@ -188,7 +188,7 @@
             this.urlHead_islt.SuperTip = "这个选框将帮助你自动识别单元格内的“可能是URL的信息”并获取图片；\r\n绝大多数情况下，这个选项应该和你的链接开头字母一致；当然你也可以自定协议。如果你什么都不写" +
     "，那么将默认使用https格式";
             this.urlHead_islt.Text = null;
-            this.urlHead_islt.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.urlHead_islt_TextChanged);
+            this.urlHead_islt.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.UrlHead_islt_TextChanged);
             // 
             // getPicExe_btn
             // 
@@ -201,7 +201,7 @@
             this.getPicExe_btn.ShowImage = true;
             this.getPicExe_btn.SuperTip = "执行期间excel会发生假死，请不要一次性执行过多的任务";
             this.getPicExe_btn.Visible = false;
-            this.getPicExe_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.getPicExe_btn_Click);
+            this.getPicExe_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.GetPicExe_btn_Click);
             // 
             // Regex
             // 
@@ -217,7 +217,7 @@
             this.RegexInput.Name = "RegexInput";
             this.RegexInput.ShowImage = true;
             this.RegexInput.SuperTip = "单击以显示或隐藏正则输入窗口";
-            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.regex_btn_Click);
+            this.RegexInput.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Regex_btn_Click);
             // 
             // NLP_Get
             // 
@@ -325,7 +325,7 @@
             this.get_type_slct.Name = "get_type_slct";
             this.get_type_slct.SuperTip = "指定要提取的文本类型";
             this.get_type_slct.Text = "人名字号";
-            this.get_type_slct.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.get_type_slct_TextChanged);
+            this.get_type_slct.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Get_type_slct_TextChanged);
             // 
             // precise_chb
             // 
@@ -334,7 +334,7 @@
             this.precise_chb.Name = "precise_chb";
             this.precise_chb.ScreenTip = "使结果更可靠，以牺牲识别成功率为代价";
             this.precise_chb.SuperTip = "勾选后，提取的数据精细度会上升，但识别成功率会下降，无法识别的时将输出空值等待手工填写。（建议开启）";
-            this.precise_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.precise_chb_Click);
+            this.precise_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Precise_chb_Click);
             // 
             // overwrite_chb
             // 
@@ -342,7 +342,7 @@
             this.overwrite_chb.Name = "overwrite_chb";
             this.overwrite_chb.ScreenTip = "生成内容将直接覆盖原有内容";
             this.overwrite_chb.SuperTip = "勾选后，生成内容将直接覆盖原有内容，此覆盖很可能无法撤销！\r\n若取消勾选，生成结果不会覆盖已有数据的区域，但是对于无法识别出结果的内容，多次识别并不会提高成功率";
-            this.overwrite_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.overwrite_chb_Click);
+            this.overwrite_chb.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Overwrite_chb_Click);
             // 
             // execute_btn
             // 
@@ -353,7 +353,7 @@
             this.execute_btn.Name = "execute_btn";
             this.execute_btn.ShowImage = true;
             this.execute_btn.Visible = false;
-            this.execute_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.execute_btn_Click);
+            this.execute_btn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Execute_btn_Click);
             // 
             // MainRibbon_Sub
             // 

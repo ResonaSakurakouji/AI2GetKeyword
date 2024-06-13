@@ -1,12 +1,78 @@
 using System;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 namespace Hrz_ExcelRangeIO
 {
+    public class RobustMethod
+    {
+        public static void SaveAsBackup()
+        {
+            try
+            {
+                Excel.Application excelApp = Marshal.GetActiveObject("Excel.Application") as Excel.Application;
+                Excel.Workbook activeWorkbook = excelApp.ActiveWorkbook;
+
+                // 获取当前文件全名（包括拓展名）
+                string fileName = activeWorkbook.FullName;
+                string extension = Path.GetExtension(fileName);
+
+                // 生成备份文件，并以"_Hbkup0结尾"
+                string backupFileName = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "_Hbkup0" + extension);
+                activeWorkbook.SaveCopyAs(backupFileName);
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show("保存备份出现故障: " + ex.Message);
+            }
+        }
+        public static void SaveAsBackup(string tail)
+        {
+            try
+            {
+                Excel.Application excelApp = Marshal.GetActiveObject("Excel.Application") as Excel.Application;
+                Excel.Workbook activeWorkbook = excelApp.ActiveWorkbook;
+
+                // 获取当前文件全名（包括拓展名）
+                string fileName = activeWorkbook.FullName;
+                string extension = Path.GetExtension(fileName);
+
+                // 生成备份文件，并以"_Hbkup结尾"
+                string backupFileName = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + tail + extension);
+                activeWorkbook.SaveCopyAs(backupFileName);
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show("保存备份出现故障: " + ex.Message);
+            }
+        }
+    }
+    public class RegexMethod
+    {
+        public static string Match4WinPath(string file_class)
+        {
+            string classText = file_class;
+            if (file_class == "img")
+            {
+                classText = "png|jpg|jpeg|gif|bmp";
+            }
+            string matchBody = "[a-zA-Z]:(\\\\)[^/^;^*^\"^<^>^\\|]+.("+ classText +")";
+            return matchBody;
+        }
+        public static string Head2Match4Url(string text)
+        {
+            string result = "^(" + text + ")://(\\w|-|\\.|~|!|\\*|'|\\(|\\)|@|&|=|\\+|\\$|/|\\?|#|\\[|\\]|%)+";
+            return result;
+        }
+    }
     public class IOMethod
     {
-        public static void urls2imgs(Excel.Range target_cell, bool compatibility_mode, string[] url_list)
+        public static int IOMcount = 0;
+        public static void Urls2imgs(Excel.Range target_cell, bool compatibility_mode, string[] url_list)
         {
+            IOMcount += 1;
+            if (IOMcount % 5 == 0) { RobustMethod.SaveAsBackup(); }
             int pic_count = url_list.Length;
             bool stop_flag = false;
             for (int i = 0; i < pic_count; i += 1)
