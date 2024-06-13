@@ -18,8 +18,8 @@ namespace Hrz_ExcelRangeIO
                 string fileName = activeWorkbook.FullName;
                 string extension = Path.GetExtension(fileName);
 
-                // 生成备份文件，并以"_Hbkup0结尾"
-                string backupFileName = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "_Hbkup0" + extension);
+                // 生成备份文件，并以"_Hbkup结尾"
+                string backupFileName = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + "_Hbkup" + extension);
                 activeWorkbook.SaveCopyAs(backupFileName);
             }
             catch (Exception ex)

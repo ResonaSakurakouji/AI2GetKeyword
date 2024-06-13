@@ -132,12 +132,13 @@ namespace AI2GetKeyword
                     }
                 }
                 MessageBox.Show($"选中的区域【{globalRowCount}】行【{globalColumnCount}】列\r\n数据源区域的值已成功保存", "数据源设置成功");
-                if (globalRowCount * globalColumnCount > 100)
+                if (globalRowCount * globalColumnCount > 32)
                 {
                     MessageBox.Show($"您选中的区域有{globalRowCount * globalColumnCount}个单元格\r\n" +
                         $"数据量较多，执行过程中可能有较长时间无响应\r\n" +
                         $"建议分多次操作来分部执行\r\n" +
-                        $"如果要直接执行的话请耐心等待", "长时间等待警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        $"如果要直接执行的话请耐心等待\r\n" +
+                        $"如果表格崩溃，你可以在同一文件夹下找到以”_Hbkup“结尾的备份文件", "长时间等待警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 dim_btn.Label = "重设数据区域";
                 set_btn.Label = "生成数据区域";
